@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "757308584361",
+    "project_id": "beautyapp-2c788",
+    "storage_bucket": "beautyapp-2c788.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757308584361:android:624f831d1da56374f714b8",
+        "android_client_info": {
+          "package_name": "com.scarecrowhouse.makdeck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757308584361-4lnlqjnb6ugr6qu6urscgqtc8fnhlb17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scarecrowhouse.makdeck",
+            "certificate_hash": "7140f65317d001ffa4ecdc551bd9d89ad87d8fc7"
+          }
+        },
+        {
+          "client_id": "757308584361-7rfd7u9i5tbvqaamq1but3kcvke767fe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAewH9dFRxeRXZgAEjcJY92lHH52Lz--SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757308584361-7rfd7u9i5tbvqaamq1but3kcvke767fe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

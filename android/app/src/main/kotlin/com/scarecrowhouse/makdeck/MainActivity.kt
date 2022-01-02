@@ -1,4 +1,4 @@
-package com.example.makdeck
+package com.scarecrowhouse.makdeck
 
 import io.flutter.embedding.android.FlutterActivity
 
