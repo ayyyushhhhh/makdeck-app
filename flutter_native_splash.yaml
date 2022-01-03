@@ -1,0 +1,11 @@
+flutter_native_splash:
+  fill: true
+  color: "#792C9A"
+   
+  branding: assets/images/Makdeck_logo.png
+
+  android: true
+
+  android_gravity: center
+
+  

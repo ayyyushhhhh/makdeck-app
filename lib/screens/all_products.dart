@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:makdeck/models/product_model.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/widgets/product_container.dart';
+import 'package:makdeck/widgets/shimer_container.dart';
 
 class AllProducts extends StatelessWidget {
   final List<ProductModel> products;
@@ -44,8 +45,16 @@ class AllProducts extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.active ||
                     snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+                  return GridView.builder(
+                    itemCount: 2,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.75,
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ShimmerLoader();
+                    },
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {

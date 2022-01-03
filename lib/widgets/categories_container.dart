@@ -17,8 +17,8 @@ class CategoryContainer extends StatelessWidget {
             fit: BoxFit.contain,
             child: Image.asset(
               "assets/images/$image.png",
-              height: 50,
-              width: 50,
+              height: MediaQuery.of(context).size.height / 16,
+              width: MediaQuery.of(context).size.height / 16,
             ),
           ),
           SizedBox(

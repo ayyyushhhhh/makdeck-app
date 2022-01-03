@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/product_model.dart';
 import 'package:makdeck/screens/all_products.dart';
@@ -5,6 +7,7 @@ import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:makdeck/widgets/categories_container.dart';
 import 'package:makdeck/widgets/product_container.dart';
+import 'package:makdeck/widgets/shimer_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,17 +33,19 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
-          title: Text(
-            "MakDeck",
-            style: TextStyle(fontSize: 26, color: Colors.black),
+          title: Image.asset(
+            "assets/images/Makdeck_logo.png",
+            fit: BoxFit.contain,
+            height: 60,
           ),
         ),
         body: Container(
           padding:
               const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Hi,", style: Theme.of(context).textTheme.headline2),
@@ -109,13 +114,21 @@ class _HomePageState extends State<HomePage> {
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.active ||
                       snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return GridView.builder(
+                      itemCount: 2,
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 0.75,
+                        crossAxisCount: 2,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShimmerLoader();
+                      },
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
                       _products = snapshot.data;
-
+                      final _random = new Random();
                       return GridView.builder(
                         itemCount: 2,
                         shrinkWrap: true,
@@ -125,7 +138,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return ProductContainer(
-                            product: _products[index],
+                            product:
+                                _products[_random.nextInt(_products.length)],
                           );
                         },
                       );
