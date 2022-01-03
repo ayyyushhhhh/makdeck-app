@@ -34,6 +34,8 @@ class ProductModel {
     required this.originalPrice,
   });
 
+  get description => null;
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
