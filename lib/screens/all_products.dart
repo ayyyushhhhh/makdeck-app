@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/product_model.dart';
+import 'package:makdeck/screens/search_products.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/widgets/product_container.dart';
 import 'package:makdeck/widgets/shimer_container.dart';
@@ -7,12 +8,14 @@ import 'package:makdeck/widgets/shimer_container.dart';
 class AllProducts extends StatelessWidget {
   final List<ProductModel> products;
   final String? productCategory;
-  const AllProducts({Key? key, required this.products, this.productCategory})
+
+  AllProducts({Key? key, required this.products, this.productCategory})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (products.isEmpty && productCategory != "") {
+      List<ProductModel> categoryProducts = [];
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -35,6 +38,23 @@ class AllProducts extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return SearchProductsScreen(products: categoryProducts);
+                      },
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+              ),
+            ],
             centerTitle: true,
           ),
           body: Container(
@@ -59,6 +79,7 @@ class AllProducts extends StatelessWidget {
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     List<ProductModel> products = snapshot.data;
+                    categoryProducts = products;
                     if (products.isEmpty) {
                       return Center(
                         child: Text(
@@ -119,6 +140,23 @@ class AllProducts extends StatelessWidget {
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return SearchProductsScreen(products: products);
+                    },
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
         body: Container(
           padding: EdgeInsets.all(10),

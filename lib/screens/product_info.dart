@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -14,7 +15,8 @@ class ProductInfo extends StatelessWidget {
   final ProductModel product;
   ProductInfo({Key? key, required this.product}) : super(key: key);
   final GlobalKey expansionTileKey = GlobalKey();
-
+  final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(
+      locale: "en_IN", symbol: "₹", decimalDigits: 0);
   Future<void> launchWhatsApp({required String product}) async {
     final link = WhatsAppUnilink(
       phoneNumber: '+91-7065916587',
@@ -36,8 +38,11 @@ class ProductInfo extends StatelessWidget {
         body: Stack(children: [
           SingleChildScrollView(
             child: Container(
-              padding:
-                  EdgeInsets.only(top: 10, bottom: 60, left: 10, right: 10),
+              padding: EdgeInsets.only(
+                  top: 10,
+                  bottom: MediaQuery.of(context).size.height / 12,
+                  left: 10,
+                  right: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -96,7 +101,7 @@ class ProductInfo extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: '\₹ ' + product.originalPrice.toString(),
+                          text: _formatter.format(product.originalPrice),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -105,7 +110,7 @@ class ProductInfo extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '  \₹ ' + product.mrp.toString(),
+                          text: '  ' + _formatter.format(product.mrp),
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -124,6 +129,28 @@ class ProductInfo extends StatelessWidget {
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: "Size -",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black)),
+                        TextSpan(
+                          text: " ${product.quantity}",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
                         ),
                       ],
                     ),
@@ -286,7 +313,7 @@ class ProductInfo extends StatelessWidget {
                 }
               },
               child: Container(
-                height: 60,
+                height: MediaQuery.of(context).size.height / 12,
                 width: double.infinity,
                 color: kPrimaryColor,
                 child: Center(

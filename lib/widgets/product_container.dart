@@ -1,11 +1,13 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/product_model.dart';
 import 'package:makdeck/screens/product_info.dart';
 
 class ProductContainer extends StatelessWidget {
   final ProductModel product;
-  const ProductContainer({Key? key, required this.product}) : super(key: key);
-
+  ProductContainer({Key? key, required this.product}) : super(key: key);
+  final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(
+      locale: "en_IN", symbol: "₹", decimalDigits: 0);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -64,7 +66,7 @@ class ProductContainer extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: '₹ ${product.originalPrice}',
+                      text: ' ${_formatter.format(product.originalPrice)}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -73,7 +75,7 @@ class ProductContainer extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: '  ₹ ${product.mrp}',
+                      text: '  ${_formatter.format(product.mrp)}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
