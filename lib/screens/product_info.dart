@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/widgets/star_rating.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -15,15 +17,77 @@ class ProductInfo extends StatelessWidget {
   final ProductModel product;
   ProductInfo({Key? key, required this.product}) : super(key: key);
   final GlobalKey expansionTileKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(
       locale: "en_IN", symbol: "₹", decimalDigits: 0);
-  Future<void> launchWhatsApp({required String product}) async {
+
+  Future<void> _launchWhatsApp({required String product}) async {
     final link = WhatsAppUnilink(
       phoneNumber: '+91-7065916587',
       text: "Hey! I'm interested in $product",
     );
 
     await launch('$link');
+  }
+
+  void _addRatingModal(BuildContext context, double deviceWidth) {
+    int stars = 0;
+    _scaffoldKey.currentState!.showBottomSheet<void>((BuildContext context) {
+      return Container(
+        width: deviceWidth,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(color: kPrimaryColor),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                "Rate the Prodcut",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              StarRating(
+                onRatingChanged: (rating) {
+                  print(stars);
+                  stars = rating;
+                },
+              ),
+              TextField(
+                textInputAction: TextInputAction.newline,
+                keyboardType: TextInputType.multiline,
+                minLines: null,
+                maxLines: null,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: kPrimaryColor),
+                      borderRadius: BorderRadius.circular(10)),
+                  labelText: "Review",
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Submit")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Cancel")),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   @override
@@ -35,6 +99,7 @@ class ProductInfo extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         body: Stack(children: [
           SingleChildScrollView(
             child: Container(
@@ -245,6 +310,17 @@ class ProductInfo extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      _addRatingModal(
+                          context, MediaQuery.of(context).size.width);
+                    },
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text("Write a Review"),
+                      leading: Icon(Icons.rate_review),
+                    ),
+                  ),
                   ExpansionTile(
                     key: expansionTileKey,
                     onExpansionChanged: (value) {
@@ -309,7 +385,7 @@ class ProductInfo extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 if (product.inStocks) {
-                  launchWhatsApp(product: product.name);
+                  _launchWhatsApp(product: product.name);
                 }
               },
               child: Container(

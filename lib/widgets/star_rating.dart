@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+
+class StarRating extends StatefulWidget {
+  final Function(int rating) onRatingChanged;
+  const StarRating({Key? key, required this.onRatingChanged}) : super(key: key);
+
+  @override
+  _StarRatingState createState() => _StarRatingState();
+}
+
+class _StarRatingState extends State<StarRating> {
+  int _rating = 0;
+  @override
+  Widget build(BuildContext context) {
+    double iconsize = 50;
+    return Container(
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            icon: Icon(Icons.star),
+            color: _rating >= 1 ? Colors.yellow : Colors.grey,
+            iconSize: iconsize,
+            onPressed: () {
+              widget.onRatingChanged(1);
+              setState(() {
+                _rating = 1;
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.star),
+            color: _rating >= 2 ? Colors.yellow : Colors.grey,
+            iconSize: iconsize,
+            onPressed: () {
+              widget.onRatingChanged(2);
+
+              setState(() {
+                _rating = 2;
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.star),
+            color: _rating >= 3 ? Colors.yellow : Colors.grey,
+            iconSize: iconsize,
+            onPressed: () {
+              widget.onRatingChanged(3);
+              setState(() {
+                _rating = 3;
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.star),
+            color: _rating >= 4 ? Colors.yellow : Colors.grey,
+            iconSize: iconsize,
+            onPressed: () {
+              widget.onRatingChanged(4);
+              setState(() {
+                _rating = 4;
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.star),
+            color: _rating >= 5 ? Colors.yellow : Colors.grey,
+            iconSize: iconsize,
+            onPressed: () {
+              widget.onRatingChanged(5);
+              setState(() {
+                _rating = 5;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
