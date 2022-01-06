@@ -63,13 +63,13 @@ class CloudDatabase {
     }
   }
 
-  Future<List<ReviewModel>> getReviews(
-      {required String productID, required String reviewID}) async {
+  Future<List<ReviewModel>> getReviews({required String productID}) async {
     final String reviewpath = "ProductReviews/Reviews/$productID";
     try {
       final CollectionReference refrence = _firestore.collection(reviewpath);
       final QuerySnapshot productSnapshot = await refrence.get();
       final List<ReviewModel> allReviews = [];
+
       final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
 
       for (final data in allData) {
@@ -77,6 +77,26 @@ class CloudDatabase {
       }
 
       return allReviews;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<double> getRatings({required String productID}) async {
+    final String reviewpath = "ProductReviews/Reviews/$productID";
+    try {
+      final CollectionReference refrence = _firestore.collection(reviewpath);
+      final QuerySnapshot productSnapshot = await refrence.get();
+      double ratings = 0;
+
+      final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
+
+      for (final data in allData) {
+        final review = ReviewModel.fromMap(data! as Map<String, dynamic>);
+        ratings += review.rating;
+      }
+      ratings = ratings / allData.length;
+      return ratings;
     } on Exception {
       rethrow;
     }

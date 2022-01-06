@@ -33,13 +33,12 @@ dependencies:
   firebase_core: ^1.10.6
   flutter:
     sdk: flutter
-  zefyrka: ^1.1.1
-  notus: ^1.0.0-rc.1
-  whatsapp_unilink: ^2.0.1+1
   html: ^0.15.0
+  intl: ^0.17.0
+  notus: ^1.0.0-rc.1
   shimmer: ^2.0.0
-  currency_text_input_formatter: ^2.1.5
-
+  whatsapp_unilink: ^2.0.1+1
+  zefyrka: ^1.1.1
 
 dev_dependencies:
   change_app_package_name: ^1.0.0

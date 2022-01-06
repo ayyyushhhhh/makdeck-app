@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'dart:ui';
+
+import 'package:intl/intl.dart';
 import 'package:makdeck/models/review_model.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
+import 'package:makdeck/widgets/reviews_lists.dart';
 import 'package:makdeck/widgets/star_rating.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
@@ -20,8 +23,7 @@ class ProductInfo extends StatelessWidget {
   ProductInfo({Key? key, required this.product}) : super(key: key);
   final GlobalKey expansionTileKey = GlobalKey();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(
-      locale: "en_IN", symbol: "₹", decimalDigits: 0);
+  final NumberFormat _formatter = NumberFormat('#,###', "en_IN");
 
   Future<void> _launchWhatsApp({required String product}) async {
     final link = WhatsAppUnilink(
@@ -63,7 +65,7 @@ class ProductInfo extends StatelessWidget {
                 keyboardType: TextInputType.multiline,
                 minLines: null,
                 maxLines: null,
-                onSubmitted: (value) {
+                onChanged: (value) {
                   reviewComment = value;
                 },
                 decoration: InputDecoration(
@@ -184,7 +186,9 @@ class ProductInfo extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: _formatter.format(product.originalPrice),
+                          text: "₹ " +
+                              _formatter
+                                  .format(int.parse(product.originalPrice)),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -193,7 +197,8 @@ class ProductInfo extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '  ' + _formatter.format(product.mrp),
+                          text: '  ₹ ' +
+                              _formatter.format(int.parse(product.mrp)),
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -240,6 +245,63 @@ class ProductInfo extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 5,
+                  ),
+                  FutureBuilder(
+                    future: CloudDatabase().getRatings(productID: product.id),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData) {
+                        final double rating = snapshot.data;
+
+                        return Row(
+                          children: [
+                            Text(
+                              "Ratings - ",
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Center(
+                                    child: Text(
+                                  rating.toStringAsFixed(1),
+                                  style: TextStyle(color: Colors.white),
+                                ))),
+                          ],
+                        );
+                      } else {
+                        return Row(
+                          children: [
+                            Text(
+                              "Ratings - ",
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Center(
+                                child: Text(
+                                  "0.0",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
                   Text(
                     "About the Product ",
@@ -325,20 +387,6 @@ class ProductInfo extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _addRatingModal(
-                          context, MediaQuery.of(context).size.width);
-                    },
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text("Write a Review"),
-                      leading: Icon(Icons.rate_review),
-                    ),
-                  ),
                   ExpansionTile(
                     key: expansionTileKey,
                     onExpansionChanged: (value) {
@@ -394,6 +442,24 @@ class ProductInfo extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _addRatingModal(
+                          context, MediaQuery.of(context).size.width);
+                    },
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text("Write a Review"),
+                      leading: Icon(Icons.rate_review),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ReviewsListView(productId: product.id),
                 ],
               ),
             ),
