@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/widgets/star_rating.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
@@ -31,8 +33,9 @@ class ProductInfo extends StatelessWidget {
   }
 
   void _addRatingModal(BuildContext context, double deviceWidth) {
-    int stars = 0;
     _scaffoldKey.currentState!.showBottomSheet<void>((BuildContext context) {
+      int stars = 0;
+      String reviewComment = "";
       return Container(
         width: deviceWidth,
         padding: EdgeInsets.all(10),
@@ -52,7 +55,6 @@ class ProductInfo extends StatelessWidget {
               ),
               StarRating(
                 onRatingChanged: (rating) {
-                  print(stars);
                   stars = rating;
                 },
               ),
@@ -61,6 +63,9 @@ class ProductInfo extends StatelessWidget {
                 keyboardType: TextInputType.multiline,
                 minLines: null,
                 maxLines: null,
+                onSubmitted: (value) {
+                  reviewComment = value;
+                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: kPrimaryColor),
@@ -73,7 +78,20 @@ class ProductInfo extends StatelessWidget {
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        final reviewID = Random().nextInt(1000000).toString();
+                        final review = ReviewModel(
+                          id: reviewID,
+                          rating: stars,
+                          review: reviewComment,
+                          date: DateTime.now().toIso8601String(),
+                          userId: '1234',
+                          userImage: '123',
+                          userName: 'ayyyushhhh',
+                        ).toMap();
+                        CloudDatabase().uploadReview(
+                            productId: product.id,
+                            review: review,
+                            reviewId: reviewID);
                       },
                       child: Text("Submit")),
                   TextButton(

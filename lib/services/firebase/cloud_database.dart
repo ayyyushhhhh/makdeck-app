@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:makdeck/models/product_model.dart';
+import 'package:makdeck/models/review_model.dart';
 
 class CloudDatabase {
   late FirebaseFirestore _firestore;
@@ -44,6 +45,38 @@ class CloudDatabase {
       }
 
       return restoredProdcuts;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> uploadReview(
+      {required Map<String, dynamic> review,
+      required String reviewId,
+      required String productId}) async {
+    final String reviewpath = "ProductReviews/Reviews/$productId/$reviewId";
+    try {
+      final DocumentReference refrence = _firestore.doc(reviewpath);
+      await refrence.set(review);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<ReviewModel>> getReviews(
+      {required String productID, required String reviewID}) async {
+    final String reviewpath = "ProductReviews/Reviews/$productID";
+    try {
+      final CollectionReference refrence = _firestore.collection(reviewpath);
+      final QuerySnapshot productSnapshot = await refrence.get();
+      final List<ReviewModel> allReviews = [];
+      final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
+
+      for (final data in allData) {
+        allReviews.add(ReviewModel.fromMap(data! as Map<String, dynamic>));
+      }
+
+      return allReviews;
     } on Exception {
       rethrow;
     }

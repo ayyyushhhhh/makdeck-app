@@ -17,7 +17,7 @@ class ReviewModel {
     required this.date,
   });
 
-  factory ReviewModel.fromJson(Map<String, dynamic> map) {
+  factory ReviewModel.fromMap(Map<String, dynamic> map) {
     return ReviewModel(
       id: map['id'],
       userId: map['user_id'],
@@ -27,5 +27,17 @@ class ReviewModel {
       rating: map['rating'],
       date: map['date'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'user_id': userId,
+      'user_name': userName,
+      'user_image': userImage,
+      'review': review,
+      'rating': rating,
+      'date': date,
+    };
   }
 }
