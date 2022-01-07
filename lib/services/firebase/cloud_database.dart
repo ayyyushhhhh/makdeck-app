@@ -105,4 +105,44 @@ class CloudDatabase {
       rethrow;
     }
   }
+
+  Future<ReviewModel> getReview(
+      {required String productID, required String uid}) async {
+    final String reviewpath = "ProductReviews/Reviews/$productID/$uid";
+    try {
+      final DocumentReference refrence = _firestore.doc(reviewpath);
+      final DocumentSnapshot productSnapshot = await refrence.get();
+
+      final allData = productSnapshot.data();
+      if (allData != null) {
+        final ReviewModel review =
+            ReviewModel.fromMap(allData as Map<String, dynamic>);
+        return review;
+      }
+
+      return ReviewModel(
+          id: "",
+          userId: uid,
+          userName: "",
+          rating: 0,
+          date: DateTime.now().toIso8601String(),
+          review: "");
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<String> getContactNumber() async {
+    final String contactpath = "/ContactNumbers/contacts";
+    try {
+      final DocumentReference refrence = _firestore.doc(contactpath);
+      final DocumentSnapshot productSnapshot = await refrence.get();
+
+      final Map<String, dynamic> data =
+          productSnapshot.data() as Map<String, dynamic>;
+      return data["whatsapp"];
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

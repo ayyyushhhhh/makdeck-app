@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/widgets/reviews_lists.dart';
 import 'package:makdeck/widgets/star_rating.dart';
@@ -25,18 +27,23 @@ class ProductInfo extends StatelessWidget {
   final NumberFormat _formatter = NumberFormat('#,###', "en_IN");
 
   Future<void> _launchWhatsApp({required String product}) async {
+    final String phoneNumber = await CloudDatabase().getContactNumber();
+    print(phoneNumber);
     final link = WhatsAppUnilink(
-      phoneNumber: '+91-7065916587',
+      phoneNumber: phoneNumber,
       text: "Hey! I'm interested in $product",
     );
 
     await launch('$link');
   }
 
-  void _addRatingModal(BuildContext context, double deviceWidth) {
+  void _addRatingModal(BuildContext context, double deviceWidth) async {
+    User? user = await FirebaseAuthentication.getUserStream.first;
+    ReviewModel review = await CloudDatabase()
+        .getReview(productID: product.id, uid: user!.uid.toString());
     _scaffoldKey.currentState!.showBottomSheet<void>((BuildContext context) {
-      int stars = 0;
-      String reviewComment = "";
+      int stars = review.rating;
+      String reviewComment = review.review;
       return Container(
         width: deviceWidth,
         padding: EdgeInsets.all(10),
@@ -58,8 +65,10 @@ class ProductInfo extends StatelessWidget {
                 onRatingChanged: (rating) {
                   stars = rating;
                 },
+                rating: stars,
               ),
               TextField(
+                controller: TextEditingController(text: reviewComment),
                 textInputAction: TextInputAction.newline,
                 keyboardType: TextInputType.multiline,
                 minLines: null,
@@ -86,14 +95,13 @@ class ProductInfo extends StatelessWidget {
                             rating: stars,
                             review: reviewComment,
                             date: DateTime.now().toIso8601String(),
-                            userId: '1234',
-                            userImage: '123',
-                            userName: 'ayyyushhhh',
+                            userId: user.uid,
+                            userName: user.displayName.toString(),
                           ).toMap();
                           CloudDatabase().uploadReview(
                               productId: product.id,
                               review: review,
-                              reviewId: reviewID);
+                              reviewId: user.uid);
                           Navigator.of(context).pop();
                         }
                       },
@@ -450,32 +458,33 @@ class ProductInfo extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        _addRatingModal(
-                            context, MediaQuery.of(context).size.width);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.black),
-                        ),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            "Write a Review",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                  if (FirebaseAuthentication.isLoggedIn())
+                    GestureDetector(
+                        onTap: () {
+                          _addRatingModal(
+                              context, MediaQuery.of(context).size.width);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.black),
                           ),
-                          leading: Icon(
-                            Icons.rate_review,
-                            size: 30,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              "Write a Review",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            leading: Icon(
+                              Icons.rate_review,
+                              size: 30,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
                   SizedBox(
                     height: 10,
                   ),

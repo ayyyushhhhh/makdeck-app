@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class StarRating extends StatefulWidget {
   final Function(int rating) onRatingChanged;
-  const StarRating({Key? key, required this.onRatingChanged}) : super(key: key);
+  final int rating;
+  StarRating({Key? key, required this.onRatingChanged, required this.rating})
+      : super(key: key);
 
   @override
   _StarRatingState createState() => _StarRatingState();
@@ -10,6 +12,12 @@ class StarRating extends StatefulWidget {
 
 class _StarRatingState extends State<StarRating> {
   int _rating = 0;
+  @override
+  void initState() {
+    super.initState();
+    _rating = widget.rating;
+  }
+
   @override
   Widget build(BuildContext context) {
     double iconsize = 50;
