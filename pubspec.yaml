@@ -30,9 +30,11 @@ dependencies:
   carousel_slider: ^4.0.0
   cloud_firestore: ^3.1.5
   cupertino_icons: ^1.0.2
+  firebase_auth: ^3.3.4
   firebase_core: ^1.10.6
   flutter:
     sdk: flutter
+  google_sign_in: ^5.2.1
   html: ^0.15.0
   intl: ^0.17.0
   notus: ^1.0.0-rc.1

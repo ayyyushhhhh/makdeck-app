@@ -13,6 +13,8 @@ class ReviewsListView extends StatefulWidget {
 }
 
 class _ReviewsListViewState extends State<ReviewsListView> {
+  int numberOfReviews = 3;
+  List<ReviewModel> reviews = [];
   @override
   void initState() {
     super.initState();
@@ -37,50 +39,27 @@ class _ReviewsListViewState extends State<ReviewsListView> {
           future: CloudDatabase().getReviews(productID: widget.productId),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
-              List<ReviewModel> reviews = snapshot.data;
-              double rating = 0;
-              for (ReviewModel review in reviews) {
-                rating += review.rating;
+              reviews = snapshot.data;
+              if (reviews.isNotEmpty) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: numberOfReviews,
+                  physics: ScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index < reviews.length) {
+                      ReviewModel review = reviews[index];
+                      if (review.review != "") {
+                        return ReviewContainer(review: review);
+                      }
+                    }
+
+                    return Container();
+                  },
+                );
               }
-              rating = rating / reviews.length;
-              return Row(
-                children: [
-                  Text(
-                    "Ratings - ",
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Center(
-                          child: Text(
-                        rating.toStringAsFixed(1),
-                        style: TextStyle(color: Colors.white),
-                      ))),
-                ],
-              );
-            } else {
-              return Center(child: Text("No Reviews/Ratings"));
-            }
-          },
-        ),
-        FutureBuilder(
-          future: CloudDatabase().getReviews(productID: widget.productId),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  ReviewModel review = snapshot.data[index];
-                  return ReviewContainer(review: review);
-                },
+              return Center(
+                child: Text("No Reviews Yet"),
               );
             } else {
               return Center(
@@ -89,6 +68,24 @@ class _ReviewsListViewState extends State<ReviewsListView> {
             }
           },
         ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                numberOfReviews = reviews.length;
+              });
+            },
+            child: Text(
+              "View All Reviews",
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                color: kPrimaryColor,
+              ),
+            ),
+          ),
+        )
       ],
     ));
   }

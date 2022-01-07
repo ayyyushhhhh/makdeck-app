@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:intl/intl.dart';
 import 'package:makdeck/models/review_model.dart';
@@ -81,19 +80,22 @@ class ProductInfo extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         final reviewID = Random().nextInt(1000000).toString();
-                        final review = ReviewModel(
-                          id: reviewID,
-                          rating: stars,
-                          review: reviewComment,
-                          date: DateTime.now().toIso8601String(),
-                          userId: '1234',
-                          userImage: '123',
-                          userName: 'ayyyushhhh',
-                        ).toMap();
-                        CloudDatabase().uploadReview(
-                            productId: product.id,
-                            review: review,
-                            reviewId: reviewID);
+                        if (stars != 0) {
+                          final review = ReviewModel(
+                            id: reviewID,
+                            rating: stars,
+                            review: reviewComment,
+                            date: DateTime.now().toIso8601String(),
+                            userId: '1234',
+                            userImage: '123',
+                            userName: 'ayyyushhhh',
+                          ).toMap();
+                          CloudDatabase().uploadReview(
+                              productId: product.id,
+                              review: review,
+                              reviewId: reviewID);
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text("Submit")),
                   TextButton(
@@ -387,75 +389,93 @@ class ProductInfo extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ExpansionTile(
-                    key: expansionTileKey,
-                    onExpansionChanged: (value) {
-                      if (value) {
-                        final keyContext = expansionTileKey.currentContext;
-                        if (keyContext != null) {
-                          Future.delayed(Duration(milliseconds: 200))
-                              .then((value) {
-                            Scrollable.ensureVisible(keyContext,
-                                duration: Duration(milliseconds: 200));
-                          });
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: ExpansionTile(
+                      key: expansionTileKey,
+                      onExpansionChanged: (value) {
+                        if (value) {
+                          final keyContext = expansionTileKey.currentContext;
+                          if (keyContext != null) {
+                            Future.delayed(Duration(milliseconds: 200))
+                                .then((value) {
+                              Scrollable.ensureVisible(keyContext,
+                                  duration: Duration(milliseconds: 200));
+                            });
+                          }
                         }
-                      }
-                    },
-                    tilePadding: EdgeInsets.zero,
-                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                    childrenPadding: EdgeInsets.zero,
-                    title: Text(
-                      "Additional Information",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: kPrimaryColor,
+                      },
+                      tilePadding: EdgeInsets.zero,
+                      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      childrenPadding: EdgeInsets.zero,
+                      title: Text(
+                        "Additional Information",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: kPrimaryColor,
+                        ),
                       ),
+                      children: [
+                        Text(
+                          "Country of Origin: ${product.countryofOrigin}",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Address of Importer: ${product.nameOfImporter}",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Address of Importer: ${product.addressofImporter}",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    children: [
-                      Text(
-                        "Country of Origin: ${product.countryofOrigin}",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Address of Importer: ${product.nameOfImporter}",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Address of Importer: ${product.addressofImporter}",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      _addRatingModal(
-                          context, MediaQuery.of(context).size.width);
-                    },
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text("Write a Review"),
-                      leading: Icon(Icons.rate_review),
-                    ),
-                  ),
+                      onTap: () {
+                        _addRatingModal(
+                            context, MediaQuery.of(context).size.width);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            "Write a Review",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          leading: Icon(
+                            Icons.rate_review,
+                            size: 30,
+                          ),
+                        ),
+                      )),
                   SizedBox(
                     height: 10,
                   ),

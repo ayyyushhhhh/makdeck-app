@@ -95,8 +95,12 @@ class CloudDatabase {
         final review = ReviewModel.fromMap(data! as Map<String, dynamic>);
         ratings += review.rating;
       }
-      ratings = ratings / allData.length;
-      return ratings;
+      if (allData.isNotEmpty) {
+        ratings = ratings / allData.length;
+        return ratings;
+      }
+
+      return 0.0;
     } on Exception {
       rethrow;
     }

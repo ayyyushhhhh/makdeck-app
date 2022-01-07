@@ -1,11 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/product_model.dart';
 import 'package:makdeck/screens/all_products.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:makdeck/widgets/categories_container.dart';
+import 'package:makdeck/widgets/drawer_container.dart';
 import 'package:makdeck/widgets/product_container.dart';
 import 'package:makdeck/widgets/shimer_container.dart';
 
@@ -25,22 +25,31 @@ class _HomePageState extends State<HomePage> {
     "Hair Care",
     "Personal Care",
   ];
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<ProductModel> _products = [];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
+          leading: IconButton(
+            color: kPrimaryColor,
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
+            icon: Icon(Icons.menu),
+          ),
           title: Image.asset(
             "assets/images/Makdeck_logo.png",
             fit: BoxFit.contain,
             height: 60,
           ),
         ),
+        drawer: DrawerContainer(),
         body: Container(
           padding:
               const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
