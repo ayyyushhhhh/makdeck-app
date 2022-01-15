@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:makdeck/models/review_model.dart';
@@ -182,8 +183,11 @@ class ProductInfo extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration:
                                 const BoxDecoration(color: Colors.white),
-                            child: Image.network(
-                              image,
+                            child: CachedNetworkImage(
+                              imageUrl: image,
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.white,
+                              ),
                               fit: BoxFit.contain,
                             ),
                           );

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:makdeck/models/product_model.dart';
@@ -42,8 +43,11 @@ class ProductContainer extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Image.network(
-                product.images[0],
+              child: CachedNetworkImage(
+                imageUrl: product.images[0],
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.white,
+                ),
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width / 2.5,
                 height: MediaQuery.of(context).size.width / 2.5,

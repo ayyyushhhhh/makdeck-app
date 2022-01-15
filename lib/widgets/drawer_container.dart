@@ -2,9 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:makdeck/utils/utils.dart';
 
 class DrawerContainer extends StatelessWidget {
   const DrawerContainer({Key? key}) : super(key: key);
+
+  void openPrivacyPolicy() {
+    const String url =
+        'https://makdeck.blogspot.com/2022/01/privacy-policy.html';
+    Utils.openLinks(url: Uri.encodeFull(url));
+  }
+
+  void openMail() {
+    const String email = "makdeckcare@gmail.com";
+    Utils.openEmail(
+      to: email,
+      subject: "Query for Makdeck",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,21 +160,31 @@ class DrawerContainer extends StatelessWidget {
                 },
               ),
               Divider(),
-              ListTile(
-                leading: Icon(
-                  Icons.contact_mail,
-                  color: kPrimaryColor,
+              GestureDetector(
+                onTap: () {
+                  openMail();
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.contact_mail,
+                    color: kPrimaryColor,
+                  ),
+                  title: Text('Contact Us'),
                 ),
-                title: Text('Contact Us'),
               ),
               Divider(),
-              ListTile(
-                leading: Icon(
-                  Icons.privacy_tip,
-                  color: kPrimaryColor,
-                ),
-                title: Text(
-                  'Privacy Policy',
+              GestureDetector(
+                onTap: () {
+                  openPrivacyPolicy();
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.privacy_tip,
+                    color: kPrimaryColor,
+                  ),
+                  title: Text(
+                    'Privacy Policy',
+                  ),
                 ),
               ),
               Divider(),

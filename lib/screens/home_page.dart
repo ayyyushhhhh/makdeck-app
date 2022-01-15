@@ -1,7 +1,9 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/product_model.dart';
 import 'package:makdeck/screens/all_products.dart';
+import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:makdeck/widgets/categories_container.dart';
@@ -57,7 +59,20 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Hi,", style: Theme.of(context).textTheme.headline2),
+              StreamBuilder<User?>(
+                stream: FirebaseAuthentication.getUserStream,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    User user = snapshot.data;
+                    final name = user.displayName!.split(" ");
+                    return Text("Hi " + name[0] + ",",
+                        style: Theme.of(context).textTheme.headline2);
+                  }
+                  return Text("Hi,",
+                      style: Theme.of(context).textTheme.headline2);
+                },
+              ),
               Container(
                 child: Text("Discover Your Products",
                     style: Theme.of(context).textTheme.headline2),
@@ -163,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                   return Center(
-                    child: Text("No Products Available"),
+                    child: Text("No Internet Connection"),
                   );
                 },
               ),
