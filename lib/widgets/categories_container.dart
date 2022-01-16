@@ -8,6 +8,7 @@ class CategoryContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.all(5),
       padding: EdgeInsets.all(10),
@@ -17,8 +18,8 @@ class CategoryContainer extends StatelessWidget {
             fit: BoxFit.contain,
             child: Image.asset(
               "assets/images/$image.png",
-              height: MediaQuery.of(context).size.height / 16,
-              width: MediaQuery.of(context).size.height / 16,
+              height: width / 12,
+              width: width / 12,
             ),
           ),
           SizedBox(
@@ -26,7 +27,7 @@ class CategoryContainer extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: width / 25),
           ),
         ],
       ),

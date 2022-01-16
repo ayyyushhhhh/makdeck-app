@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -66,60 +67,94 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasData) {
                     User user = snapshot.data;
                     final name = user.displayName!.split(" ");
-                    return Text("Hi " + name[0] + ",",
-                        style: Theme.of(context).textTheme.headline2);
+                    return Text(
+                      "Hi " + name[0] + ",",
+                      style: TextStyle(
+                        fontSize: width / 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    );
                   }
-                  return Text("Hi,",
-                      style: Theme.of(context).textTheme.headline2);
+                  return Text(
+                    "Hi,",
+                    style: TextStyle(
+                      fontSize: width / 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  );
                 },
               ),
               Container(
-                child: Text("Discover Your Products",
-                    style: Theme.of(context).textTheme.headline2),
+                child: Text(
+                  "Discover Your Products",
+                  style: TextStyle(
+                    fontSize: width / 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text("Categories", style: Theme.of(context).textTheme.headline3),
+              Text(
+                "Categories",
+                style: TextStyle(
+                  fontSize: width / 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
               SizedBox(
                 height: 2,
               ),
               Container(
                 height: 5,
-                width: 10.0 * "Categories".length,
+                width: width / 50 * "Categories".length,
                 color: kPrimaryColor,
               ),
               SizedBox(
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height / 6,
-                child: ListView.builder(
-                  itemCount: 5,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AllProducts(
-                              productCategory: _categories[index],
-                              products: [],
+                height: MediaQuery.of(context).size.height / 7,
+                child: Center(
+                  child: ListView.builder(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllProducts(
+                                productCategory: _categories[index],
+                                products: [],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: CategoryContainer(
-                          title: _categories[index], image: _categories[index]),
-                    );
-                  },
+                          );
+                        },
+                        child: CategoryContainer(
+                            title: _categories[index],
+                            image: _categories[index]),
+                      );
+                    },
+                  ),
                 ),
               ),
               Container(
-                child: Text("Our Products",
-                    style: Theme.of(context).textTheme.headline3),
+                child: Text(
+                  "Our Products",
+                  style: TextStyle(
+                    fontSize: width / 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
               SizedBox(
                 height: 2,
@@ -127,7 +162,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 height: 5,
                 color: kPrimaryColor,
-                width: 10.0 * "Our Products".length,
+                width: width / 50 * "Our Products".length,
               ),
               SizedBox(
                 height: 10,
