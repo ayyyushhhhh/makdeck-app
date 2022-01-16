@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_function_literals_in_foreach_calls, avoid_single_cascade_in_expression_statements
+
 import 'dart:convert';
 
 import 'package:html/dom.dart';
@@ -200,7 +202,7 @@ class _NotusHtmlEncoder extends Converter<Delta, String> {
       _writeAttribute(buffer, value);
     }
     if (source != null) {
-      buffer.write("<img src=\"${source}\">");
+      buffer.write("<img src=\"$source\">");
     }
     if (hr!) {
       buffer.write("<hr>");
@@ -286,8 +288,9 @@ class _NotusHtmlDecoder extends Converter<String, Delta> {
 
     html.body!.nodes.asMap().forEach((index, node) {
       var next;
-      if (index + 1 < html.body!.nodes.length)
+      if (index + 1 < html.body!.nodes.length) {
         next = html.body!.nodes[index + 1];
+      }
       delta = _parseNode(node, delta, next);
     });
     final text = delta.last.data is String ? delta.last.data as String : '';
@@ -390,7 +393,7 @@ class _NotusHtmlDecoder extends Converter<String, Delta> {
       }
       return delta;
     } else {
-      if (attributes == null) attributes = {};
+      attributes ??= {};
       if (element.localName == "em") {
         attributes["i"] = true;
       }
@@ -438,6 +441,7 @@ class _NotusHtmlDecoder extends Converter<String, Delta> {
     }
   }
 
+  // ignore: prefer_final_fields
   Map<String, String> _supportedElements = {
     "li": "block",
     "blockquote": "block",

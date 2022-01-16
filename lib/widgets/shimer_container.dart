@@ -9,15 +9,15 @@ class ShimmerLoader extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width / 2.3,
       height: MediaQuery.of(context).size.height / 2.8,
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.5),
-            offset: Offset(0, 0),
+            offset: const Offset(0, 0),
             blurRadius: 3,
           ),
         ],

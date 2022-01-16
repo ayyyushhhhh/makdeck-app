@@ -40,7 +40,7 @@ class DrawerContainer extends StatelessWidget {
                     return Container(
                       height: 130,
                       width: double.infinity,
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +51,7 @@ class DrawerContainer extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black12,
                                       blurRadius: 10,
@@ -65,10 +65,10 @@ class DrawerContainer extends StatelessWidget {
                                   fit: BoxFit.contain,
                                 ),
                               )),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             user.displayName!,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -80,7 +80,7 @@ class DrawerContainer extends StatelessWidget {
                   return Container(
                     height: 130,
                     width: double.infinity,
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,20 +91,20 @@ class DrawerContainer extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 10,
                                   offset: Offset(0, 0),
                                 ),
                               ]),
-                          child: Icon(
+                          child: const Icon(
                             Icons.person,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                           'Log in',
                           style: TextStyle(
                             fontSize: 18,
@@ -128,17 +128,17 @@ class DrawerContainer extends StatelessWidget {
                       try {
                         FirebaseAuthentication.signInWithGoogle();
                       } catch (e) {
-                        print(e);
+                        rethrow;
                       }
                     },
                     child: Container(
                       height: 40,
                       width: MediaQuery.of(context).size.width * 0.6,
-                      margin: EdgeInsets.all(5),
+                      margin: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.blue,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 10,
@@ -146,7 +146,7 @@ class DrawerContainer extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "Sign In With Google",
                           style: TextStyle(
@@ -159,7 +159,7 @@ class DrawerContainer extends StatelessWidget {
                   );
                 },
               ),
-              Divider(),
+              const Divider(),
               GestureDetector(
                 onTap: () {
                   openMail();
@@ -169,10 +169,10 @@ class DrawerContainer extends StatelessWidget {
                     Icons.contact_mail,
                     color: kPrimaryColor,
                   ),
-                  title: Text('Contact Us'),
+                  title: const Text('Contact Us'),
                 ),
               ),
-              Divider(),
+              const Divider(),
               GestureDetector(
                 onTap: () {
                   openPrivacyPolicy();
@@ -182,12 +182,12 @@ class DrawerContainer extends StatelessWidget {
                     Icons.privacy_tip,
                     color: kPrimaryColor,
                   ),
-                  title: Text(
+                  title: const Text(
                     'Privacy Policy',
                   ),
                 ),
               ),
-              Divider(),
+              const Divider(),
             ],
           ),
           Align(
@@ -197,7 +197,7 @@ class DrawerContainer extends StatelessWidget {
                 try {
                   FirebaseAuthentication.signOut();
                 } catch (e) {
-                  print(e);
+                  rethrow;
                 }
               },
               child: ListTile(
@@ -205,7 +205,7 @@ class DrawerContainer extends StatelessWidget {
                   Icons.logout,
                   color: kPrimaryColor,
                 ),
-                title: Text('Logout'),
+                title: const Text('Logout'),
               ),
             ),
           )

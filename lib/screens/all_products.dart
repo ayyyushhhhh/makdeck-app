@@ -9,7 +9,7 @@ class AllProducts extends StatelessWidget {
   final List<ProductModel> products;
   final String? productCategory;
 
-  AllProducts({Key? key, required this.products, this.productCategory})
+  const AllProducts({Key? key, required this.products, this.productCategory})
       : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class AllProducts extends StatelessWidget {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.navigate_before,
                 color: Colors.black,
                 size: 40,
@@ -33,7 +33,7 @@ class AllProducts extends StatelessWidget {
             ),
             title: Text(
               productCategory!,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
@@ -49,7 +49,7 @@ class AllProducts extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                   color: Colors.black,
                 ),
@@ -58,7 +58,7 @@ class AllProducts extends StatelessWidget {
             centerTitle: true,
           ),
           body: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: FutureBuilder(
               future: CloudDatabase()
                   .getProductsbyCategory(category: productCategory!),
@@ -68,12 +68,13 @@ class AllProducts extends StatelessWidget {
                   return GridView.builder(
                     itemCount: 2,
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 0.75,
                       crossAxisCount: 2,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      return ShimmerLoader();
+                      return const ShimmerLoader();
                     },
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
@@ -90,7 +91,8 @@ class AllProducts extends StatelessWidget {
                     }
                     return GridView.builder(
                       itemCount: products.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.75,
                         crossAxisCount: 2,
                       ),
@@ -101,16 +103,16 @@ class AllProducts extends StatelessWidget {
                       },
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text("No Products Available"),
                     );
                   }
                 } else if (snapshot.connectionState == ConnectionState.none) {
-                  return Center(
+                  return const Center(
                     child: Text("No Internet Connection"),
                   );
                 }
-                return Center(
+                return const Center(
                   child: Text("No Products Available"),
                 );
               },
@@ -125,7 +127,7 @@ class AllProducts extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.navigate_before,
               color: Colors.black,
               size: 40,
@@ -134,7 +136,7 @@ class AllProducts extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             'All Products',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
@@ -151,7 +153,7 @@ class AllProducts extends StatelessWidget {
                   ),
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: Colors.black,
               ),
@@ -159,10 +161,10 @@ class AllProducts extends StatelessWidget {
           ],
         ),
         body: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: GridView.builder(
             itemCount: products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 0.75,
               crossAxisCount: 2,
             ),

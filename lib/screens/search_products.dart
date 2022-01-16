@@ -58,8 +58,9 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                 height: MediaQuery.of(context).size.height / 12,
                 width: double.infinity,
                 // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                padding: const EdgeInsets.all(15),
+                decoration:
+                    const BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(
                       offset: (Offset(0, 3)),
                       blurRadius: 5,
@@ -68,19 +69,19 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                 child: TextField(
                   controller: _searchController,
                   autofocus: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: GridView.builder(
                   itemCount: _filteredProducts.isNotEmpty
                       ? _filteredProducts.length
                       : widget.products.length,
                   shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 0.75,
                     crossAxisCount: 2,
                   ),

@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           ),
           title: Image.asset(
             "assets/images/Makdeck_logo.png",
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             height: 60,
           ),
         ),
-        drawer: DrawerContainer(),
+        drawer: const DrawerContainer(),
         body: Container(
           padding:
               const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              Container(
+              SizedBox(
                 child: Text(
                   "Discover Your Products",
                   style: TextStyle(
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Container(
@@ -115,10 +115,10 @@ class _HomePageState extends State<HomePage> {
                 width: width / 50 * "Categories".length,
                 color: kPrimaryColor,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height / 7,
                 child: Center(
                   child: ListView.builder(
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                               builder: (context) => AllProducts(
                                 productCategory: _categories[index],
-                                products: [],
+                                products: const [],
                               ),
                             ),
                           );
@@ -146,17 +146,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Container(
-                child: Text(
-                  "Our Products",
-                  style: TextStyle(
-                    fontSize: width / 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
+              Text(
+                "Our Products",
+                style: TextStyle(
+                  fontSize: width / 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Container(
@@ -164,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                 color: kPrimaryColor,
                 width: width / 50 * "Our Products".length,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               FutureBuilder(
@@ -176,22 +174,24 @@ class _HomePageState extends State<HomePage> {
                     return GridView.builder(
                       itemCount: 2,
                       shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.75,
                         crossAxisCount: 2,
                       ),
                       itemBuilder: (BuildContext context, int index) {
-                        return ShimmerLoader();
+                        return const ShimmerLoader();
                       },
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
                       _products = snapshot.data;
-                      final _random = new Random();
+                      final _random = Random();
                       return GridView.builder(
                         itemCount: 2,
                         shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: 0.75,
                           crossAxisCount: 2,
                         ),
@@ -203,16 +203,16 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: Text("No Products Available"),
                       );
                     }
                   } else if (snapshot.connectionState == ConnectionState.none) {
-                    return Center(
+                    return const Center(
                       child: Text("No Internet Connection"),
                     );
                   }
-                  return Center(
+                  return const Center(
                     child: Text("No Internet Connection"),
                   );
                 },

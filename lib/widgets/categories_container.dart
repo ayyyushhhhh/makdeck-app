@@ -10,8 +10,8 @@ class CategoryContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Container(
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(10),
       child: Column(
         children: [
           FittedBox(
@@ -22,7 +22,7 @@ class CategoryContainer extends StatelessWidget {
               width: width / 12,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(

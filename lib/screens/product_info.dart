@@ -29,7 +29,7 @@ class ProductInfo extends StatelessWidget {
 
   Future<void> _launchWhatsApp({required String product}) async {
     final String phoneNumber = await CloudDatabase().getContactNumber();
-    print(phoneNumber);
+
     final link = WhatsAppUnilink(
       phoneNumber: phoneNumber,
       text: "Hey! I'm interested in $product",
@@ -47,10 +47,10 @@ class ProductInfo extends StatelessWidget {
       String reviewComment = review.review;
       return Container(
         width: deviceWidth,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           border: Border.all(color: kPrimaryColor),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -106,12 +106,12 @@ class ProductInfo extends StatelessWidget {
                           Navigator.of(context).pop();
                         }
                       },
-                      child: Text("Submit")),
+                      child: const Text("Submit")),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("Cancel")),
+                      child: const Text("Cancel")),
                 ],
               )
             ],
@@ -148,23 +148,23 @@ class ProductInfo extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 30,
                     ),
                     color: Colors.black,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     product.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   CarouselSlider(
@@ -203,7 +203,7 @@ class ProductInfo extends StatelessWidget {
                           text: "₹ " +
                               _formatter
                                   .format(int.parse(product.originalPrice)),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey,
@@ -213,19 +213,19 @@ class ProductInfo extends StatelessWidget {
                         TextSpan(
                           text: '  ₹ ' +
                               _formatter.format(int.parse(product.mrp)),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: Colors.black),
                         ),
                         TextSpan(
                           text: '  (${discout.round()}% off)',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: Colors.red),
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: '\nInclusive of all taxes',
                           style: TextStyle(
                               fontSize: 12,
@@ -235,13 +235,13 @@ class ProductInfo extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(
+                        const TextSpan(
                             text: "Size -",
                             style: TextStyle(
                                 fontSize: 18,
@@ -249,7 +249,7 @@ class ProductInfo extends StatelessWidget {
                                 color: Colors.black)),
                         TextSpan(
                           text: " ${product.quantity}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               color: Colors.black),
@@ -257,7 +257,7 @@ class ProductInfo extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   FutureBuilder(
@@ -273,7 +273,7 @@ class ProductInfo extends StatelessWidget {
                               "Ratings - ",
                               style: Theme.of(context).textTheme.headline4,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Container(
@@ -285,7 +285,7 @@ class ProductInfo extends StatelessWidget {
                                 child: Center(
                                     child: Text(
                                   rating.toStringAsFixed(1),
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white),
                                 ))),
                           ],
                         );
@@ -296,7 +296,7 @@ class ProductInfo extends StatelessWidget {
                               "Ratings - ",
                               style: Theme.of(context).textTheme.headline4,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Container(
@@ -305,7 +305,7 @@ class ProductInfo extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: kPrimaryColor,
                                   borderRadius: BorderRadius.circular(5)),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   "0.0",
                                   style: TextStyle(color: Colors.white),
@@ -366,7 +366,7 @@ class ProductInfo extends StatelessWidget {
                     ),
                     readOnly: true,
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.width / 6,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -378,7 +378,7 @@ class ProductInfo extends StatelessWidget {
                             width: MediaQuery.of(context).size.width / 6,
                           ),
                         if (product.crueltyFree)
-                          VerticalDivider(
+                          const VerticalDivider(
                             width: 5,
                             thickness: 2,
                             color: Colors.black,
@@ -388,7 +388,7 @@ class ProductInfo extends StatelessWidget {
                           height: MediaQuery.of(context).size.width / 6,
                           width: MediaQuery.of(context).size.width / 6,
                         ),
-                        VerticalDivider(
+                        const VerticalDivider(
                           width: 5,
                           thickness: 2,
                           color: Colors.black,
@@ -402,17 +402,17 @@ class ProductInfo extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 20),
                     child: ExpansionTile(
                       key: expansionTileKey,
                       onExpansionChanged: (value) {
                         if (value) {
                           final keyContext = expansionTileKey.currentContext;
                           if (keyContext != null) {
-                            Future.delayed(Duration(milliseconds: 200))
+                            Future.delayed(const Duration(milliseconds: 200))
                                 .then((value) {
                               Scrollable.ensureVisible(keyContext,
-                                  duration: Duration(milliseconds: 200));
+                                  duration: const Duration(milliseconds: 200));
                             });
                           }
                         }
@@ -431,27 +431,27 @@ class ProductInfo extends StatelessWidget {
                       children: [
                         Text(
                           "Country of Origin: ${product.countryofOrigin}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           "Address of Importer: ${product.nameOfImporter}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           "Address of Importer: ${product.addressofImporter}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
@@ -459,7 +459,7 @@ class ProductInfo extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   if (FirebaseAuthentication.isLoggedIn())
@@ -469,12 +469,12 @@ class ProductInfo extends StatelessWidget {
                               context, MediaQuery.of(context).size.width);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(2),
+                          padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.black),
                           ),
-                          child: ListTile(
+                          child: const ListTile(
                             contentPadding: EdgeInsets.zero,
                             title: Text(
                               "Write a Review",
@@ -489,7 +489,7 @@ class ProductInfo extends StatelessWidget {
                             ),
                           ),
                         )),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   ReviewsListView(productId: product.id),
@@ -512,7 +512,7 @@ class ProductInfo extends StatelessWidget {
                 child: Center(
                   child: Text(
                     product.inStocks ? "Buy on WhatsApp" : "Out of Stock",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

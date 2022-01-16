@@ -22,8 +22,7 @@ class _ReviewsListViewState extends State<ReviewsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       children: [
         Align(
           alignment: Alignment.centerLeft,
@@ -32,7 +31,7 @@ class _ReviewsListViewState extends State<ReviewsListView> {
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         FutureBuilder(
@@ -44,7 +43,7 @@ class _ReviewsListViewState extends State<ReviewsListView> {
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: numberOfReviews,
-                  physics: ScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int index) {
                     if (index < reviews.length) {
@@ -58,11 +57,11 @@ class _ReviewsListViewState extends State<ReviewsListView> {
                   },
                 );
               }
-              return Center(
+              return const Center(
                 child: Text("No Reviews Yet"),
               );
             } else {
-              return Center(
+              return const Center(
                 child: Text("No Reviews Yet"),
               );
             }
@@ -87,6 +86,6 @@ class _ReviewsListViewState extends State<ReviewsListView> {
           ),
         )
       ],
-    ));
+    );
   }
 }

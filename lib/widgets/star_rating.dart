@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class StarRating extends StatefulWidget {
   final Function(int rating) onRatingChanged;
   final int rating;
-  StarRating({Key? key, required this.onRatingChanged, required this.rating})
+  const StarRating(
+      {Key? key, required this.onRatingChanged, required this.rating})
       : super(key: key);
 
   @override
@@ -22,13 +23,13 @@ class _StarRatingState extends State<StarRating> {
   Widget build(BuildContext context) {
     double iconsize = 50;
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: Icon(Icons.star),
+            icon: const Icon(Icons.star),
             color: _rating >= 1 ? Colors.yellow : Colors.grey,
             iconSize: iconsize,
             onPressed: () {
@@ -39,7 +40,7 @@ class _StarRatingState extends State<StarRating> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.star),
+            icon: const Icon(Icons.star),
             color: _rating >= 2 ? Colors.yellow : Colors.grey,
             iconSize: iconsize,
             onPressed: () {
@@ -51,7 +52,7 @@ class _StarRatingState extends State<StarRating> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.star),
+            icon: const Icon(Icons.star),
             color: _rating >= 3 ? Colors.yellow : Colors.grey,
             iconSize: iconsize,
             onPressed: () {
@@ -62,7 +63,7 @@ class _StarRatingState extends State<StarRating> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.star),
+            icon: const Icon(Icons.star),
             color: _rating >= 4 ? Colors.yellow : Colors.grey,
             iconSize: iconsize,
             onPressed: () {
@@ -73,7 +74,7 @@ class _StarRatingState extends State<StarRating> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.star),
+            icon: const Icon(Icons.star),
             color: _rating >= 5 ? Colors.yellow : Colors.grey,
             iconSize: iconsize,
             onPressed: () {
