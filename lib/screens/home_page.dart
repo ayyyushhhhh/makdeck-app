@@ -186,34 +186,57 @@ class _HomePageState extends State<HomePage> {
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
                       _products = snapshot.data;
-                      final _random = Random();
-                      return GridView.builder(
-                        itemCount: 2,
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.75,
-                          crossAxisCount: 2,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return ProductContainer(
-                            product:
-                                _products[_random.nextInt(_products.length)],
-                          );
-                        },
-                      );
+                      if (_products.isNotEmpty) {
+                        final _random = Random();
+                        return GridView.builder(
+                          itemCount: 2,
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.75,
+                            crossAxisCount: 2,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return ProductContainer(
+                              product:
+                                  _products[_random.nextInt(_products.length)],
+                            );
+                          },
+                        );
+                      } else {
+                        return SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.3,
+                          height: MediaQuery.of(context).size.height / 2.8,
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child:
+                                Center(child: Text("No Internet Connection")),
+                          ),
+                        );
+                      }
                     } else {
                       return const Center(
                         child: Text("No Products Available"),
                       );
                     }
                   } else if (snapshot.connectionState == ConnectionState.none) {
-                    return const Center(
-                      child: Text("No Internet Connection"),
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.3,
+                      height: MediaQuery.of(context).size.height / 2.8,
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Center(child: Text("No Internet Connection")),
+                      ),
                     );
                   }
-                  return const Center(
-                    child: Text("No Internet Connection"),
+
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: MediaQuery.of(context).size.height / 2.8,
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Center(child: Text("No Internet Connection")),
+                    ),
                   );
                 },
               ),

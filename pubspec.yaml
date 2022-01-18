@@ -43,7 +43,7 @@ dependencies:
   zefyrka: ^1.1.1
   url_launcher: ^6.0.17
   cached_network_image: ^3.2.0
-  
+
 
 dev_dependencies:
   change_app_package_name: ^1.0.0

@@ -103,8 +103,13 @@ class AllProducts extends StatelessWidget {
                       },
                     );
                   } else {
-                    return const Center(
-                      child: Text("No Products Available"),
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.3,
+                      height: MediaQuery.of(context).size.height / 2.8,
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Center(child: Text("No Internet Connection")),
+                      ),
                     );
                   }
                 } else if (snapshot.connectionState == ConnectionState.none) {
@@ -112,8 +117,13 @@ class AllProducts extends StatelessWidget {
                     child: Text("No Internet Connection"),
                   );
                 }
-                return const Center(
-                  child: Text("No Products Available"),
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width / 2.3,
+                  height: MediaQuery.of(context).size.height / 2.8,
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Center(child: Text("No Internet Connection")),
+                  ),
                 );
               },
             ),

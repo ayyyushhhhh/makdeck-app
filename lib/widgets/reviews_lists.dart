@@ -22,13 +22,17 @@ class _ReviewsListViewState extends State<ReviewsListView> {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
             "Ratings & Reviews",
-            style: Theme.of(context).textTheme.headline2,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: width / 15,
+            ),
           ),
         ),
         const SizedBox(

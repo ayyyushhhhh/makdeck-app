@@ -10,7 +10,7 @@ class ProductContainer extends StatelessWidget {
   final NumberFormat _formatter = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
       onTap: () {
