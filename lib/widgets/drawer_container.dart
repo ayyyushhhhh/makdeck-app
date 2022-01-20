@@ -151,7 +151,7 @@ class DrawerContainer extends StatelessWidget {
                         child: Text(
                           "Sign In With Google",
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),
