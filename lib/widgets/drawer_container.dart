@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
@@ -60,9 +61,9 @@ class DrawerContainer extends StatelessWidget {
                                   ]),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  user.photoURL!,
-                                  fit: BoxFit.contain,
+                                child: CachedNetworkImage(
+                                  imageUrl: user.photoURL!,
+                                  fit: BoxFit.cover,
                                 ),
                               )),
                           const SizedBox(height: 10),

@@ -99,21 +99,28 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                "Categories",
-                style: TextStyle(
-                  fontSize: width / 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Categories",
+                      style: TextStyle(
+                        fontSize: width / 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      height: 5,
+                      width: width / 50 * "Categories".length,
+                      color: kPrimaryColor,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 2,
-              ),
-              Container(
-                height: 5,
-                width: width / 50 * "Categories".length,
-                color: kPrimaryColor,
               ),
               const SizedBox(
                 height: 10,
@@ -146,21 +153,28 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Text(
-                "Our Products",
-                style: TextStyle(
-                  fontSize: width / 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Our Products",
+                      style: TextStyle(
+                        fontSize: width / 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      height: 5,
+                      color: kPrimaryColor,
+                      width: width / 50 * "Our Products".length,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 2,
-              ),
-              Container(
-                height: 5,
-                color: kPrimaryColor,
-                width: width / 50 * "Our Products".length,
               ),
               const SizedBox(
                 height: 10,
