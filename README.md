@@ -1,17 +1,19 @@
-# makdeck
+# Makdeck
 
-A new Flutter project.
+Makdeck is an exclusive online beauty app that allows you to choose from a variety of beauty products from Korean and other imported brands. 
+Browse beauty products for men and women through makeup, skincare, haircare, personal care & Anti-aging which are in sync with the latest beauty trends.
 
-## Getting Started
+## About Makdeck 
+Buy Korean and imported beauty products online at the best prices and get great cheapest price across India. 
 
-This project is a starting point for a Flutter application.
+Get ready to shop for a range of skin care products such as creams, moisturizers, facial wipes, etc. Sun protection, anti-aging, and pigmentation products are available as well. 
 
-A few resources to get you started if this is your first Flutter project:
+Satisfy any woman’s shopping needs with our easy-to-use cosmetic shopping app. Order women's cosmetics from our online cosmetic store and avail products at the cheapest rate across India. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Get in touch with product experts to get all the features, benefits, and how to use instructions. 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# makdeck-app
+Visit Makdeck beauty store for the virtual products catalog. You have the option of paying via COD or, Check in a secure and trusted way. Also, purchase gift products for your loved ones. 😊
+
+Download Korea's exclusive beauty products app online and enhance your skin with a wide range of imported beauty products.
+
+Have any questions or issues related to the Makdeck beauty app? Reach out to us at makdeckcare@gmail.com. Call us on +91 7400431897.
