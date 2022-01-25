@@ -131,6 +131,7 @@ class ProductInfo extends StatelessWidget {
     final image = File('${directory.path}/screenshot${DateTime.now()}.png');
     if (imageBytes != null) {
       image.writeAsBytesSync(imageBytes);
+
       const String appURl =
           "https://play.google.com/store/apps/details?id=com.scarecrowhouse.makdeck";
       await Share.shareFiles(
