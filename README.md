@@ -17,3 +17,20 @@ Visit Makdeck beauty store for the virtual products catalog. You have the option
 Download Korea's exclusive beauty products app online and enhance your skin with a wide range of imported beauty products.
 
 Have any questions or issues related to the Makdeck beauty app? Reach out to us at makdeckcare@gmail.com. Call us on +91 7400431897.
+
+    
+## 🔗 Download here
+[![portfolio](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiA_Qwrl1HTMeTHxV7RdeB-ngP_M4MJRAhnCEip6Ll5gJ550RqW4tNa_ZIoJ24xV49Mw&usqp=CAU)](https://play.google.com/store/apps/details?id=com.scarecrowhouse.makdeck)
+
+  # Contributing Bug reports
+
+We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
+
+https://github.com/ayyyushhhhh/habit-tracker/issues
+
+## License
+Copyright 2021 Track and Grow
+
+Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
+
+Google Play and the Google Play logo are trademarks of Google LLC.
