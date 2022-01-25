@@ -1,15 +1,15 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:makdeck/models/product_model.dart';
+import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/screens/all_products.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/utils/ui/colors.dart';
-import 'package:makdeck/widgets/categories_container.dart';
-import 'package:makdeck/widgets/drawer_container.dart';
-import 'package:makdeck/widgets/product_container.dart';
-import 'package:makdeck/widgets/shimer_container.dart';
+import 'package:makdeck/widgets/Products/categories_container.dart';
+import 'package:makdeck/widgets/Drawer/drawer_container.dart';
+import 'package:makdeck/widgets/Products/product_container.dart';
+import 'package:makdeck/widgets/Products/shimer_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

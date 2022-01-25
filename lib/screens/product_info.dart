@@ -1,20 +1,23 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
-
+import 'package:path_provider/path_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/models/Review/review_model.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
-import 'package:makdeck/widgets/reviews_lists.dart';
-import 'package:makdeck/widgets/star_rating.dart';
+import 'package:makdeck/widgets/review/reviews_lists.dart';
+import 'package:makdeck/widgets/review/star_rating.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:makdeck/models/product_model.dart';
+import 'package:makdeck/models/Products/product_model.dart';
 
 import 'package:makdeck/utils/ui/colors.dart';
 
@@ -26,6 +29,7 @@ class ProductInfo extends StatelessWidget {
   final GlobalKey expansionTileKey = GlobalKey();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final NumberFormat _formatter = NumberFormat('#,###', "en_IN");
+  final ScreenshotController _screenshotController = ScreenshotController();
 
   Future<void> _launchWhatsApp({required String product}) async {
     final String phoneNumber = await CloudDatabase().getContactNumber();
@@ -121,6 +125,22 @@ class ProductInfo extends StatelessWidget {
     });
   }
 
+  Future<void> _shareScreenshot(ScreenshotController controller) async {
+    final imageBytes = await _screenshotController.capture();
+    final directory = await getApplicationDocumentsDirectory();
+    final image = File('${directory.path}/screenshot${DateTime.now()}.png');
+    if (imageBytes != null) {
+      image.writeAsBytesSync(imageBytes);
+      const String appURl =
+          "https://play.google.com/store/apps/details?id=com.scarecrowhouse.makdeck";
+      await Share.shareFiles(
+        [image.path],
+        text:
+            "Check this out ${product.name} on makdeck. Download the app now - $appURl ",
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double discout =
@@ -167,33 +187,56 @@ class ProductInfo extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      viewportFraction: 1,
-                      height: MediaQuery.of(context).size.height / 2.5,
-                      aspectRatio: 1 / 1,
-                      enableInfiniteScroll: false,
-                    ),
-                    items: product.images.map((image) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 300,
-                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
-                            child: CachedNetworkImage(
-                              imageUrl: image,
-                              errorWidget: (context, url, error) => Container(
-                                color: Colors.white,
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
+                  Stack(
+                    children: [
+                      Screenshot(
+                        controller: _screenshotController,
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            viewportFraction: 1,
+                            height: MediaQuery.of(context).size.height / 2.5,
+                            aspectRatio: 1 / 1,
+                            enableInfiniteScroll: false,
+                          ),
+                          items: product.images.map((image) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 300,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  decoration:
+                                      const BoxDecoration(color: Colors.white),
+                                  child: CachedNetworkImage(
+                                    imageUrl: image,
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      color: Colors.white,
+                                    ),
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Positioned(
+                        right: 20,
+                        top: 10,
+                        child: IconButton(
+                          onPressed: () {
+                            _shareScreenshot(_screenshotController);
+                          },
+                          icon: Icon(
+                            Icons.share_rounded,
+                            color: kPrimaryColor,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   RichText(

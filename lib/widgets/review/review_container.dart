@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/models/Review/review_model.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 
 class ReviewContainer extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:makdeck/models/product_model.dart';
-import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/models/Products/product_model.dart';
+import 'package:makdeck/models/Review/review_model.dart';
 
 class CloudDatabase {
   late FirebaseFirestore _firestore;

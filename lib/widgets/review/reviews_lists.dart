@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:makdeck/models/review_model.dart';
+import 'package:makdeck/models/Review/review_model.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/utils/ui/colors.dart';
-import 'package:makdeck/widgets/review_container.dart';
+import 'package:makdeck/widgets/review/review_container.dart';
 
 class ReviewsListView extends StatefulWidget {
   final String productId;

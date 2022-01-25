@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:makdeck/models/product_model.dart';
-import 'package:makdeck/widgets/product_container.dart';
+import 'package:makdeck/models/Products/product_model.dart';
+import 'package:makdeck/widgets/Products/product_container.dart';
 
 class SearchProductsScreen extends StatefulWidget {
   final List<ProductModel> products;

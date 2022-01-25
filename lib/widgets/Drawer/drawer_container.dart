@@ -191,24 +191,35 @@ class DrawerContainer extends StatelessWidget {
               const Divider(),
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-              onTap: () {
-                try {
-                  FirebaseAuthentication.signOut();
-                } catch (e) {
-                  rethrow;
+          StreamBuilder<User?>(
+            stream: FirebaseAuthentication.getUserStream,
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData) {
+                User? user = snapshot.data;
+                if (user != null) {
+                  return Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        try {
+                          FirebaseAuthentication.signOut();
+                        } catch (e) {
+                          rethrow;
+                        }
+                      },
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.logout,
+                          color: kPrimaryColor,
+                        ),
+                        title: const Text('Logout'),
+                      ),
+                    ),
+                  );
                 }
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  color: kPrimaryColor,
-                ),
-                title: const Text('Logout'),
-              ),
-            ),
+              }
+              return const SizedBox();
+            },
           )
         ],
       ),

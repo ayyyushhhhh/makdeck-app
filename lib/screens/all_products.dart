@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:makdeck/models/product_model.dart';
+import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/screens/search_products.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
-import 'package:makdeck/widgets/product_container.dart';
-import 'package:makdeck/widgets/shimer_container.dart';
+import 'package:makdeck/widgets/Products/product_container.dart';
+import 'package:makdeck/widgets/Products/shimer_container.dart';
 
 class AllProducts extends StatelessWidget {
   final List<ProductModel> products;
