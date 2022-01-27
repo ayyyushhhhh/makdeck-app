@@ -143,7 +143,7 @@ class DrawerContainer extends StatelessWidget {
                         if (FirebaseAuthentication.isLoggedIn()) {
                           _showToast(context, "User Logged In!");
                         }
-                      } on PlatformException catch (e) {
+                      } on PlatformException {
                         _showToast(context, "User Log In Failed!");
                       }
                     },
