@@ -35,7 +35,9 @@ class CloudDatabase {
 
     try {
       final CollectionReference refrence = _firestore.collection(productpath);
+
       final QuerySnapshot productSnapshot = await refrence.get();
+
       final List<ProductModel> restoredProdcuts = [];
       final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
 
@@ -45,7 +47,7 @@ class CloudDatabase {
       }
 
       return restoredProdcuts;
-    } on Exception {
+    } catch (e) {
       rethrow;
     }
   }

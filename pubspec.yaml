@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.0.17
   whatsapp_unilink: ^2.0.1+1
   zefyrka: ^1.1.1
+  fluttertoast: ^8.0.8
 
 
 dev_dependencies:

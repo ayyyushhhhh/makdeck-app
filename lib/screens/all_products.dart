@@ -59,12 +59,11 @@ class AllProducts extends StatelessWidget {
           ),
           body: Container(
             padding: const EdgeInsets.all(10),
-            child: FutureBuilder(
+            child: FutureBuilder<List<ProductModel>>(
               future: CloudDatabase()
                   .getProductsbyCategory(category: productCategory!),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState == ConnectionState.active ||
-                    snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return GridView.builder(
                     itemCount: 2,
                     shrinkWrap: true,
@@ -78,6 +77,20 @@ class AllProducts extends StatelessWidget {
                     },
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height / 2.8,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Center(
+                            child: Text(
+                          "No Internet Connection",
+                          style: Theme.of(context).textTheme.headline5,
+                        )),
+                      ),
+                    );
+                  }
+
                   if (snapshot.hasData) {
                     List<ProductModel> products = snapshot.data;
                     categoryProducts = products;
@@ -102,27 +115,18 @@ class AllProducts extends StatelessWidget {
                         );
                       },
                     );
-                  } else {
-                    return SizedBox(
-                      width: MediaQuery.of(context).size.width / 2.3,
-                      height: MediaQuery.of(context).size.height / 2.8,
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Center(child: Text("No Internet Connection")),
-                      ),
-                    );
                   }
-                } else if (snapshot.connectionState == ConnectionState.none) {
-                  return const Center(
-                    child: Text("No Internet Connection"),
-                  );
                 }
+
                 return SizedBox(
-                  width: MediaQuery.of(context).size.width / 2.3,
                   height: MediaQuery.of(context).size.height / 2.8,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.center,
-                    child: Center(child: Text("No Internet Connection")),
+                    child: Center(
+                        child: Text(
+                      "No Internet Connection",
+                      style: Theme.of(context).textTheme.headline5,
+                    )),
                   ),
                 );
               },

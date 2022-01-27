@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +22,16 @@ class DrawerContainer extends StatelessWidget {
       to: email,
       subject: "Query for Makdeck",
     );
+  }
+
+  void _showToast(BuildContext context, String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
@@ -125,11 +137,14 @@ class DrawerContainer extends StatelessWidget {
                     return Container();
                   }
                   return GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       try {
-                        FirebaseAuthentication.signInWithGoogle();
-                      } catch (e) {
-                        rethrow;
+                        await FirebaseAuthentication.signInWithGoogle();
+                        if (FirebaseAuthentication.isLoggedIn()) {
+                          _showToast(context, "User Logged In!");
+                        }
+                      } on PlatformException catch (e) {
+                        _showToast(context, "User Log In Failed!");
                       }
                     },
                     child: Container(

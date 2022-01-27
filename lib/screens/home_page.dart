@@ -60,40 +60,47 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StreamBuilder<User?>(
-                stream: FirebaseAuthentication.getUserStream,
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasData) {
-                    User user = snapshot.data;
-                    final name = user.displayName!.split(" ");
-                    return Text(
-                      "Hi " + name[0] + ",",
-                      style: TextStyle(
-                        fontSize: width / 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    );
-                  }
-                  return Text(
-                    "Hi,",
-                    style: TextStyle(
-                      fontSize: width / 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  );
-                },
-              ),
               SizedBox(
-                child: Text(
-                  "Discover Your Products",
-                  style: TextStyle(
-                    fontSize: width / 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StreamBuilder<User?>(
+                      stream: FirebaseAuthentication.getUserStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          User user = snapshot.data;
+                          final name = user.displayName!.split(" ");
+                          return Text(
+                            "Hi " + name[0] + ",",
+                            style: TextStyle(
+                              fontSize: width / 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          );
+                        }
+                        return Text(
+                          "Hi,",
+                          style: TextStyle(
+                            fontSize: width / 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "Discover Your Products",
+                        style: TextStyle(
+                          fontSize: width / 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
@@ -219,23 +226,32 @@ class _HomePageState extends State<HomePage> {
                         );
                       } else {
                         return SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.3,
                           height: MediaQuery.of(context).size.height / 2.8,
-                          child: const Align(
+                          child: Align(
                             alignment: Alignment.center,
-                            child:
-                                Center(child: Text("No Internet Connection")),
+                            child: Center(
+                                child: Text(
+                              "No Internet Connection",
+                              style: Theme.of(context).textTheme.headline5,
+                            )),
                           ),
                         );
                       }
                     } else {
-                      return const Center(
-                        child: Text("No Products Available"),
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height / 2.8,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Center(
+                              child: Text(
+                            "No Products Avaiable",
+                            style: Theme.of(context).textTheme.headline5,
+                          )),
+                        ),
                       );
                     }
                   } else if (snapshot.connectionState == ConnectionState.none) {
                     return SizedBox(
-                      width: MediaQuery.of(context).size.width / 2.3,
                       height: MediaQuery.of(context).size.height / 2.8,
                       child: const Align(
                         alignment: Alignment.center,
@@ -245,11 +261,14 @@ class _HomePageState extends State<HomePage> {
                   }
 
                   return SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.3,
                     height: MediaQuery.of(context).size.height / 2.8,
-                    child: const Align(
+                    child: Align(
                       alignment: Alignment.center,
-                      child: Center(child: Text("No Internet Connection")),
+                      child: Center(
+                          child: Text(
+                        "No Internet Connection",
+                        style: Theme.of(context).textTheme.headline5,
+                      )),
                     ),
                   );
                 },

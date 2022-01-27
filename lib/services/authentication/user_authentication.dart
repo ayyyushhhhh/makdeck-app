@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthentication {
@@ -55,7 +56,7 @@ class FirebaseAuthentication {
 
       // Once signed in, return the UserCredential
       return await FirebaseAuth.instance.signInWithCredential(credential);
-    } on Exception {
+    } on PlatformException {
       rethrow;
     }
   }
