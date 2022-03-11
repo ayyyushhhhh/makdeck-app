@@ -9,6 +9,39 @@ class CloudDatabase {
     _firestore = FirebaseFirestore.instance;
   }
 
+  Future<void> addProducttoWishlist(
+      {required ProductModel product, required String uid}) async {
+    final String productpath = "$uid/Wishlist/Products/${product.id}";
+
+    try {
+      final DocumentReference<Map<String, dynamic>> cloudRef =
+          _firestore.doc(productpath);
+      await cloudRef.set(product.toMap());
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  Future<List<ProductModel>> getWishlistProducts({required String uid}) async {
+    final String productpath = "$uid/Wishlist/Products";
+
+    try {
+      final CollectionReference reference = _firestore.collection(productpath);
+      final QuerySnapshot productSnapshot = await reference.get();
+      final List<ProductModel> restoredProdcuts = [];
+      final wishlistProducts =
+          productSnapshot.docs.map((doc) => doc.data()).toList();
+      for (final product in wishlistProducts) {
+        restoredProdcuts
+            .add(ProductModel.fromMap(product! as Map<String, dynamic>));
+      }
+
+      return restoredProdcuts;
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
   Future<List<ProductModel>> getProductsData() async {
     const String productpath = "Products/";
 

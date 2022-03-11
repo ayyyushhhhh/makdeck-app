@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:makdeck/screens/all_products.dart';
+import 'package:makdeck/screens/wishlist_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -174,6 +176,22 @@ class DrawerContainer extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+              const Divider(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (BuildContext context) {
+                    return const WishListScreen();
+                  }));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.favorite_border_outlined,
+                    color: kPrimaryColor,
+                  ),
+                  title: const Text('Wishlist'),
+                ),
               ),
               const Divider(),
               GestureDetector(

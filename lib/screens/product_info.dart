@@ -42,6 +42,17 @@ class ProductInfo extends StatelessWidget {
     await launch('$link');
   }
 
+  Future<void> _launchcall() async {
+    final String phoneNumber = await CloudDatabase().getContactNumber();
+
+    final url = "tel:$phoneNumber";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   void _addRatingModal(BuildContext context, double deviceWidth) async {
     User? user = await FirebaseAuthentication.getUserStream.first;
     ReviewModel review = await CloudDatabase()
@@ -63,8 +74,8 @@ class ProductInfo extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "Rate the Prodcut",
-                style: Theme.of(context).textTheme.headline2,
+                "Rate the Product",
+                style: Theme.of(context).textTheme.headline4,
               ),
               StarRating(
                 onRatingChanged: (rating) {
@@ -233,6 +244,22 @@ class ProductInfo extends StatelessWidget {
                           icon: Icon(
                             Icons.share_rounded,
                             color: kPrimaryColor,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 60,
+                        top: 10,
+                        child: IconButton(
+                          onPressed: () {
+                            CloudDatabase().addProducttoWishlist(
+                                product: product,
+                                uid: FirebaseAuthentication.getUserUid);
+                          },
+                          icon: const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
                             size: 30,
                           ),
                         ),
@@ -546,30 +573,71 @@ class ProductInfo extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
-            child: InkWell(
-              onTap: () {
-                if (product.inStocks) {
-                  _launchWhatsApp(product: product.name);
-                }
-              },
+              alignment: Alignment.bottomCenter,
               child: Container(
-                height: MediaQuery.of(context).size.height / 12,
-                width: double.infinity,
-                color: kPrimaryColor,
-                child: Center(
-                  child: Text(
-                    product.inStocks ? "Buy on WhatsApp" : "Out of Stock",
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                height: MediaQuery.of(context).size.height / 12 + 10,
+                color: Colors.white,
+                child: InkWell(
+                  onTap: () {
+                    if (product.inStocks) {
+                      _launchWhatsApp(product: product.name);
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height / 12,
+                        width: MediaQuery.of(context).size.width / 2 - 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: kPrimaryColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            product.inStocks
+                                ? "Buy via WhatsApp"
+                                : "Out of Stock",
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      InkWell(
+                        onTap: () {
+                          if (product.inStocks) {
+                            _launchcall();
+                          }
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 12,
+                          width: MediaQuery.of(context).size.width / 2 - 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: kPrimaryColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              product.inStocks
+                                  ? "Buy via Call"
+                                  : "Out of Stock",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
+              )),
         ]),
       ),
     );
