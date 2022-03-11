@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
+import 'package:makdeck/widgets/Products/product_container.dart';
 import 'package:makdeck/widgets/Products/shimer_container.dart';
-import 'package:makdeck/widgets/Products/wishlist_product_container.dart';
 
 class WishListScreen extends StatelessWidget {
   const WishListScreen({Key? key}) : super(key: key);
@@ -31,11 +31,9 @@ class WishListScreen extends StatelessWidget {
             }
 
             return Container(
-              height: double.infinity,
               padding: const EdgeInsets.all(10),
               child: FutureBuilder<List<ProductModel>>(
-                future: CloudDatabase().getWishlistProducts(
-                    uid: FirebaseAuthentication.getUserUid),
+                future: CloudDatabase().getWishlistProducts(uid: user.uid),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,7 +66,7 @@ class WishListScreen extends StatelessWidget {
 
                     if (snapshot.hasData) {
                       List<ProductModel> products = snapshot.data;
-                      final wishlistProducts = products;
+
                       if (products.isEmpty) {
                         return Center(
                           child: Text(
@@ -77,12 +75,16 @@ class WishListScreen extends StatelessWidget {
                           ),
                         );
                       }
-                      return ListView.builder(
+                      return GridView.builder(
                         itemCount: products.length,
-                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.75,
+                          crossAxisCount: 2,
+                        ),
                         itemBuilder: (BuildContext context, int index) {
-                          return WishlistProductContainer(
-                            productModel: wishlistProducts[index],
+                          return ProductContainer(
+                            product: products[index],
                           );
                         },
                       );
