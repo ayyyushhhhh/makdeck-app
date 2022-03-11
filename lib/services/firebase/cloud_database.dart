@@ -22,6 +22,19 @@ class CloudDatabase {
     }
   }
 
+  Future<void> deleteProductFromWishlist(
+      {required String productID, required String uid}) async {
+    final String productpath = "$uid/Wishlist/Products/$productID";
+
+    try {
+      final DocumentReference<Map<String, dynamic>> cloudRef =
+          _firestore.doc(productpath);
+      await cloudRef.delete();
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
   Future<List<ProductModel>> getWishlistProducts({required String uid}) async {
     final String productpath = "$uid/Wishlist/Products";
 
@@ -31,6 +44,7 @@ class CloudDatabase {
       final List<ProductModel> restoredProdcuts = [];
       final wishlistProducts =
           productSnapshot.docs.map((doc) => doc.data()).toList();
+
       for (final product in wishlistProducts) {
         restoredProdcuts
             .add(ProductModel.fromMap(product! as Map<String, dynamic>));
@@ -38,6 +52,22 @@ class CloudDatabase {
 
       return restoredProdcuts;
     } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getWishlistProductsid({required String uid}) async {
+    final String productpath = "$uid/Wishlist/Products";
+
+    try {
+      var collection = FirebaseFirestore.instance.collection(productpath);
+      var querySnapshots = await collection.get();
+      List<String> documentID = [];
+      for (var snapshot in querySnapshots.docs) {
+        documentID.add(snapshot.id);
+      }
+      return documentID;
+    } on Exception {
       rethrow;
     }
   }
