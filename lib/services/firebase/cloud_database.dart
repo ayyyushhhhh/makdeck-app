@@ -106,7 +106,7 @@ class CloudDatabase {
 
       for (final data in allData) {
         restoredProdcuts
-            .add(ProductModel.fromMap(data! as Map<String, dynamic>));
+            .add(ProductModel.fromMap(data as Map<String, dynamic>));
       }
 
       return restoredProdcuts;

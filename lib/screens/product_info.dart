@@ -427,7 +427,7 @@ class ProductInfo extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          "Address of Importer: ${product.nameOfImporter}",
+                          "Name of Importer / Manufacturer: ${product.nameOfImporter}",
                           style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
@@ -437,7 +437,7 @@ class ProductInfo extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          "Address of Importer: ${product.addressofImporter}",
+                          "Address of Importer / Manufacturer: ${product.addressofImporter}",
                           style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,

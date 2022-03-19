@@ -47,6 +47,7 @@ dependencies:
   whatsapp_unilink: ^2.0.1+1
   zefyrka: ^1.1.1
   fluttertoast: ^8.0.8
+  flutterfire_ui: ^0.3.6+1
 
 
 dev_dependencies:

@@ -102,6 +102,7 @@ class AllProducts extends StatelessWidget {
                         ),
                       );
                     }
+
                     return GridView.builder(
                       itemCount: products.length,
                       gridDelegate:
