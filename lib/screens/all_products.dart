@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/screens/search_products.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
@@ -6,15 +7,13 @@ import 'package:makdeck/widgets/Products/product_container.dart';
 import 'package:makdeck/widgets/Products/shimer_container.dart';
 
 class AllProducts extends StatelessWidget {
-  final List<ProductModel> products;
   final String? productCategory;
 
-  const AllProducts({Key? key, required this.products, this.productCategory})
-      : super(key: key);
+  const AllProducts({Key? key, this.productCategory}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (products.isEmpty && productCategory != "") {
+    if (productCategory != "") {
       List<ProductModel> categoryProducts = [];
       return SafeArea(
         child: Scaffold(
@@ -59,11 +58,13 @@ class AllProducts extends StatelessWidget {
           ),
           body: Container(
             padding: const EdgeInsets.all(10),
-            child: FutureBuilder<List<ProductModel>>(
-              future: CloudDatabase()
-                  .getProductsbyCategory(category: productCategory!),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            child: FirestoreQueryBuilder<ProductModel>(
+              query: CloudDatabase().getProductsbyCategory(
+                category: productCategory!,
+              ),
+              pageSize: 6,
+              builder: (context, snapshot, _) {
+                if (snapshot.isFetching) {
                   return GridView.builder(
                     itemCount: 2,
                     shrinkWrap: true,
@@ -76,7 +77,7 @@ class AllProducts extends StatelessWidget {
                       return const ShimmerLoader();
                     },
                   );
-                } else if (snapshot.connectionState == ConnectionState.done) {
+                } else if (snapshot.hasData) {
                   if (snapshot.hasError) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height / 2.8,
@@ -92,9 +93,7 @@ class AllProducts extends StatelessWidget {
                   }
 
                   if (snapshot.hasData) {
-                    List<ProductModel> products = snapshot.data;
-                    categoryProducts = products;
-                    if (products.isEmpty) {
+                    if (snapshot.docs.isEmpty) {
                       return Center(
                         child: Text(
                           "No Products Available",
@@ -102,17 +101,24 @@ class AllProducts extends StatelessWidget {
                         ),
                       );
                     }
-
                     return GridView.builder(
-                      itemCount: products.length,
+                      itemCount: snapshot.docs.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.75,
                         crossAxisCount: 2,
                       ),
                       itemBuilder: (BuildContext context, int index) {
+                        final hasreachedEnd = snapshot.hasMore &&
+                            index + 1 == snapshot.docs.length &&
+                            !snapshot.isFetchingMore;
+
+                        if (hasreachedEnd) {
+                          snapshot.fetchMore();
+                        }
+                        final product = snapshot.docs[index].data();
                         return ProductContainer(
-                          product: products[index],
+                          product: product,
                         );
                       },
                     );
@@ -160,13 +166,13 @@ class AllProducts extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return SearchProductsScreen(products: products);
-                    },
-                  ),
-                );
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (BuildContext context) {
+                //       return SearchProductsScreen(products: products);
+                //     },
+                //   ),
+                // );
               },
               icon: const Icon(
                 Icons.search,
@@ -177,15 +183,80 @@ class AllProducts extends StatelessWidget {
         ),
         body: Container(
           padding: const EdgeInsets.all(10),
-          child: GridView.builder(
-            itemCount: products.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.75,
-              crossAxisCount: 2,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return ProductContainer(
-                product: products[index],
+          child: FirestoreQueryBuilder<ProductModel>(
+            query: CloudDatabase().getProductsData(),
+            pageSize: 6,
+            builder: (context, snapshot, _) {
+              if (snapshot.isFetching) {
+                return GridView.builder(
+                  itemCount: 2,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.75,
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return const ShimmerLoader();
+                  },
+                );
+              } else if (snapshot.hasData) {
+                if (snapshot.hasError) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 2.8,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Center(
+                          child: Text(
+                        "No Internet Connection",
+                        style: Theme.of(context).textTheme.headline5,
+                      )),
+                    ),
+                  );
+                }
+
+                if (snapshot.hasData) {
+                  if (snapshot.docs.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "No Products Available",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    );
+                  }
+                  return GridView.builder(
+                    itemCount: snapshot.docs.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.75,
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      final hasreachedEnd = snapshot.hasMore &&
+                          index + 1 == snapshot.docs.length &&
+                          !snapshot.isFetchingMore;
+
+                      if (hasreachedEnd) {
+                        snapshot.fetchMore();
+                      }
+                      final product = snapshot.docs[index].data();
+                      return ProductContainer(
+                        product: product,
+                      );
+                    },
+                  );
+                }
+              }
+
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 2.8,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Center(
+                      child: Text(
+                    "No Internet Connection",
+                    style: Theme.of(context).textTheme.headline5,
+                  )),
+                ),
               );
             },
           ),

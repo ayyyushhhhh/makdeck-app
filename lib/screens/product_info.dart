@@ -480,6 +480,9 @@ class ProductInfo extends StatelessWidget {
                     height: 10,
                   ),
                   ReviewsListView(productId: product.id),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),
