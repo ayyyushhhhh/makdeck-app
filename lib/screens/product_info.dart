@@ -252,11 +252,10 @@ class ProductInfo extends StatelessWidget {
 
                         return Row(
                           children: [
-                            Text(
+                            const Text(
                               "Ratings - ",
                               style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width / 20,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.grey),
                             ),

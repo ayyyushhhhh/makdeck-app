@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:makdeck/models/Products/product_model.dart';
-import 'package:makdeck/screens/search_products.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/widgets/Products/product_container.dart';
 import 'package:makdeck/widgets/Products/shimer_container.dart';
@@ -14,7 +13,6 @@ class AllProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (productCategory != "") {
-      List<ProductModel> categoryProducts = [];
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -37,23 +35,23 @@ class AllProducts extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return SearchProductsScreen(products: categoryProducts);
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.black,
-                ),
-              ),
-            ],
+            // actions: [
+            // IconButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (BuildContext context) {
+            //           return const SearchProductsScreen();
+            //         },
+            //       ),
+            //     );
+            //   },
+            //   icon: const Icon(
+            //     Icons.search,
+            //     color: Colors.black,
+            //   ),
+            // ),
+            // ],
             centerTitle: true,
           ),
           body: Container(
@@ -163,23 +161,23 @@ class AllProducts extends StatelessWidget {
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (BuildContext context) {
-                //       return SearchProductsScreen(products: products);
-                //     },
-                //   ),
-                // );
-              },
-              icon: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-            ),
-          ],
+          // actions: [
+          // IconButton(
+          //   onPressed: () {
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (BuildContext context) {
+          //           return const SearchProductsScreen();
+          //         },
+          //       ),
+          //     );
+          //   },
+          //   icon: const Icon(
+          //     Icons.search,
+          //     color: Colors.black,
+          //   ),
+          // ),
+          // ],
         ),
         body: Container(
           padding: const EdgeInsets.all(10),
