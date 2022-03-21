@@ -35,22 +35,18 @@ class CloudDatabase {
     }
   }
 
-  Future<List<ProductModel>> getWishlistProducts({required String uid}) async {
+  Query<ProductModel> getWishlistProducts({required String uid}) {
     final String productpath = "$uid/Wishlist/Products";
 
     try {
-      final CollectionReference reference = _firestore.collection(productpath);
-      final QuerySnapshot productSnapshot = await reference.get();
-      final List<ProductModel> restoredProdcuts = [];
-      final wishlistProducts =
-          productSnapshot.docs.map((doc) => doc.data()).toList();
+      final CollectionReference refrence = _firestore.collection(productpath);
 
-      for (final product in wishlistProducts) {
-        restoredProdcuts
-            .add(ProductModel.fromMap(product! as Map<String, dynamic>));
-      }
+      final querypost = refrence.orderBy("name").withConverter<ProductModel>(
+          fromFirestore: (snapshot, _) =>
+              ProductModel.fromMap(snapshot.data()!),
+          toFirestore: (product, _) => product.toMap());
 
-      return restoredProdcuts;
+      return querypost;
     } on FirebaseException {
       rethrow;
     }
@@ -72,44 +68,36 @@ class CloudDatabase {
     }
   }
 
-  Future<List<ProductModel>> getProductsData() async {
+  CollectionReference<ProductModel> getProductsData() {
     const String productpath = "Products/";
 
     try {
       final CollectionReference refrence = _firestore.collection(productpath);
-      final QuerySnapshot productSnapshot = await refrence.get();
-      final List<ProductModel> restoredProdcuts = [];
-      final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
 
-      for (final data in allData) {
-        restoredProdcuts
-            .add(ProductModel.fromMap(data! as Map<String, dynamic>));
-      }
+      final querypost = refrence.withConverter<ProductModel>(
+          fromFirestore: (snapshot, _) =>
+              ProductModel.fromMap(snapshot.data()!),
+          toFirestore: (product, _) => product.toMap());
 
-      return restoredProdcuts;
+      return querypost;
     } on Exception {
       rethrow;
     }
   }
 
-  Future<List<ProductModel>> getProductsbyCategory(
-      {required String category}) async {
+  CollectionReference<ProductModel> getProductsbyCategory(
+      {required String category}) {
     final String productpath = "Category/Products/$category/";
 
     try {
       final CollectionReference refrence = _firestore.collection(productpath);
 
-      final QuerySnapshot productSnapshot = await refrence.get();
+      final querypost = refrence.withConverter<ProductModel>(
+          fromFirestore: (snapshot, _) =>
+              ProductModel.fromMap(snapshot.data()!),
+          toFirestore: (product, _) => product.toMap());
 
-      final List<ProductModel> restoredProdcuts = [];
-      final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
-
-      for (final data in allData) {
-        restoredProdcuts
-            .add(ProductModel.fromMap(data! as Map<String, dynamic>));
-      }
-
-      return restoredProdcuts;
+      return querypost;
     } catch (e) {
       rethrow;
     }
@@ -128,20 +116,16 @@ class CloudDatabase {
     }
   }
 
-  Future<List<ReviewModel>> getReviews({required String productID}) async {
+  CollectionReference<ReviewModel> getReviews({required String productID}) {
     final String reviewpath = "ProductReviews/Reviews/$productID";
     try {
       final CollectionReference refrence = _firestore.collection(reviewpath);
-      final QuerySnapshot productSnapshot = await refrence.get();
-      final List<ReviewModel> allReviews = [];
 
-      final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
+      final querypost = refrence.withConverter<ReviewModel>(
+          fromFirestore: (snapshot, _) => ReviewModel.fromMap(snapshot.data()!),
+          toFirestore: (review, _) => review.toMap());
 
-      for (final data in allData) {
-        allReviews.add(ReviewModel.fromMap(data! as Map<String, dynamic>));
-      }
-
-      return allReviews;
+      return querypost;
     } on Exception {
       rethrow;
     }

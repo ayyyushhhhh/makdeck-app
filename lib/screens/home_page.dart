@@ -1,6 +1,6 @@
-import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/screens/all_products.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
     "Personal Care",
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<ProductModel> _products = [];
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                               builder: (context) => AllProducts(
                                 productCategory: _categories[index],
-                                products: const [],
                               ),
                             ),
                           );
@@ -186,12 +184,10 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 10,
               ),
-              FutureBuilder(
-                future: CloudDatabase().getProductsData(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.active ||
-                      snapshot.connectionState == ConnectionState.waiting) {
+              FirestoreQueryBuilder<ProductModel>(
+                query: CloudDatabase().getProductsData(),
+                builder: (context, snapshot, _) {
+                  if (snapshot.isFetching) {
                     return GridView.builder(
                       itemCount: 2,
                       shrinkWrap: true,
@@ -204,53 +200,42 @@ class _HomePageState extends State<HomePage> {
                         return const ShimmerLoader();
                       },
                     );
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      _products = snapshot.data;
-                      if (_products.isNotEmpty) {
-                        final _random = Random();
-                        return GridView.builder(
-                          itemCount: 2,
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 0.75,
-                            crossAxisCount: 2,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            return ProductContainer(
-                              product:
-                                  _products[_random.nextInt(_products.length)],
-                            );
-                          },
-                        );
-                      } else {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height / 2.8,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Center(
-                                child: Text(
-                              "No Internet Connection",
-                              style: Theme.of(context).textTheme.headline5,
-                            )),
-                          ),
-                        );
-                      }
-                    } else {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height / 2.8,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Center(
-                              child: Text(
-                            "No Products Avaiable",
-                            style: Theme.of(context).textTheme.headline5,
-                          )),
+                  } else if (snapshot.hasData) {
+                    return GridView.builder(
+                        itemCount: 2,
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.75,
+                          crossAxisCount: 2,
                         ),
-                      );
-                    }
-                  } else if (snapshot.connectionState == ConnectionState.none) {
+                        itemBuilder: (BuildContext context, int index) {
+                          //     final hasreachedEnd = snapshot.hasMore &&
+                          //     index + 1 == snapshot.docs.length &&
+
+                          // if (hasreachedEnd) {
+                          //   snapshot.fetchMore();
+                          // }
+                          final product = snapshot.docs[index].data();
+                          return ProductContainer(
+                            product: product,
+                          );
+                        });
+                    // } else {
+                    //   return SizedBox(
+                    //     height: MediaQuery.of(context).size.height / 2.8,
+                    //     child: Align(
+                    //       alignment: Alignment.center,
+                    //       child: Center(
+                    //           child: Text(
+                    //         "No Internet Connection",
+                    //         style: Theme.of(context).textTheme.headline5,
+                    //       )),
+                    //     ),
+                    //   );
+                    // }
+
+                  } else if (snapshot.hasError) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height / 2.8,
                       child: const Align(
@@ -277,15 +262,13 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    if (_products.isNotEmpty) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AllProducts(
-                            products: _products,
-                          ),
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const AllProducts(
+                          productCategory: "",
                         ),
-                      );
-                    }
+                      ),
+                    );
                   },
                   child: Text(
                     "View All Products →",

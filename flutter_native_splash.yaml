@@ -1,6 +1,6 @@
 flutter_native_splash:
   fill: true
-  color: "#792C9A"
+  color: "#8c52ff"
    
   branding: assets/images/Makdeck_logo.png
 

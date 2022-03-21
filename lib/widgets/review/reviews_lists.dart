@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
 import 'package:makdeck/models/Review/review_model.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
-import 'package:makdeck/utils/ui/colors.dart';
 import 'package:makdeck/widgets/review/review_container.dart';
 
 class ReviewsListView extends StatefulWidget {
@@ -13,8 +13,6 @@ class ReviewsListView extends StatefulWidget {
 }
 
 class _ReviewsListViewState extends State<ReviewsListView> {
-  int numberOfReviews = 3;
-  List<ReviewModel> reviews = [];
   @override
   void initState() {
     super.initState();
@@ -38,57 +36,44 @@ class _ReviewsListViewState extends State<ReviewsListView> {
         const SizedBox(
           height: 5,
         ),
-        FutureBuilder(
-          future: CloudDatabase().getReviews(productID: widget.productId),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasData) {
-              reviews = snapshot.data;
-              if (reviews.isNotEmpty) {
+        FirestoreQueryBuilder<ReviewModel>(
+            query: CloudDatabase().getReviews(productID: widget.productId),
+            pageSize: 3,
+            builder: (context, snapshot, _) {
+              if (snapshot.hasData) {
+                if (snapshot.docs.isEmpty) {
+                  return const Center(
+                    child: Text("No Reviews Yet"),
+                  );
+                }
+
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount: numberOfReviews,
+                  itemCount: snapshot.docs.length,
                   physics: const ScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int index) {
-                    if (index < reviews.length) {
-                      ReviewModel review = reviews[index];
-                      if (review.review != "") {
-                        return ReviewContainer(review: review);
-                      }
-                    }
+                    final hasreachedEnd = snapshot.hasMore &&
+                        index + 1 == snapshot.docs.length &&
+                        !snapshot.isFetchingMore;
 
+                    if (hasreachedEnd) {
+                      snapshot.fetchMore();
+                    }
+                    final review = snapshot.docs[index].data();
+
+                    if (review.review != "") {
+                      return ReviewContainer(review: review);
+                    }
                     return Container();
                   },
                 );
+              } else {
+                return const Center(
+                  child: Text("No Reviews Yet"),
+                );
               }
-              return const Center(
-                child: Text("No Reviews Yet"),
-              );
-            } else {
-              return const Center(
-                child: Text("No Reviews Yet"),
-              );
-            }
-          },
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                numberOfReviews = reviews.length;
-              });
-            },
-            child: Text(
-              "View All Reviews",
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-                color: kPrimaryColor,
-              ),
-            ),
-          ),
-        )
+            }),
       ],
     );
   }

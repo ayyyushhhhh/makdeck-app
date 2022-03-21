@@ -252,11 +252,10 @@ class ProductInfo extends StatelessWidget {
 
                         return Row(
                           children: [
-                            Text(
+                            const Text(
                               "Ratings - ",
                               style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width / 20,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.grey),
                             ),
@@ -427,7 +426,7 @@ class ProductInfo extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          "Address of Importer: ${product.nameOfImporter}",
+                          "Name of Importer / Manufacturer: ${product.nameOfImporter}",
                           style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
@@ -437,7 +436,7 @@ class ProductInfo extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          "Address of Importer: ${product.addressofImporter}",
+                          "Address of Importer / Manufacturer: ${product.addressofImporter}",
                           style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
@@ -480,6 +479,9 @@ class ProductInfo extends StatelessWidget {
                     height: 10,
                   ),
                   ReviewsListView(productId: product.id),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),

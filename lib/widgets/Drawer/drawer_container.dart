@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:makdeck/screens/in_app_webview.dart';
 import 'package:makdeck/screens/wishlist_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
@@ -11,18 +14,76 @@ import 'package:makdeck/utils/utils.dart';
 class DrawerContainer extends StatelessWidget {
   const DrawerContainer({Key? key}) : super(key: key);
 
-  void openPrivacyPolicy() {
-    const String url =
-        'https://makdeck.blogspot.com/2022/01/privacy-policy.html';
-    Utils.openLinks(url: Uri.encodeFull(url));
-  }
-
   void openMail() {
     const String email = "makdeckcare@gmail.com";
     Utils.openEmail(
       to: email,
       subject: "Query for Makdeck",
     );
+  }
+
+  showModalSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            Container(
+              height: 50,
+              width: double.infinity,
+              color: kPrimaryColor,
+              child: Center(
+                child: Text(
+                  "Connect with Makdeck",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.mail,
+                color: kPrimaryColor,
+              ),
+              title: Text("Write to Us"),
+              onTap: () {
+                openMail();
+                Navigator.pop(context);
+              },
+            ),
+            Divider(),
+            // ListTile(
+            //   leading: Icon(
+            //     Icons.phone,
+            //     color: kPrimaryColor,
+            //   ),
+            //   title: Text("Call Us"),
+            //   onTap: () async {
+            //     final String phoneNumber =
+            //         await CloudDatabase().getContactNumber();
+
+            //     final url = "tel:$phoneNumber";
+            //     if (await canLaunch(url)) {
+            //       await launch(url);
+            //     } else {
+            //       throw 'Could not launch $url';
+            //     }
+            //     Navigator.pop(context);
+            //   },
+            // ),
+          ],
+        );
+      },
+    );
+  }
+
+  void openPlayStore() {
+    const String url =
+        'https://play.google.com/store/apps/details?id=com.scarecrowhouse.makdeck';
+    Utils.openLinks(url: Uri.encodeFull(url));
   }
 
   void _showToast(BuildContext context, String msg) {
@@ -37,10 +98,8 @@ class DrawerContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      width: MediaQuery.of(context).size.width * 0.6,
-      height: MediaQuery.of(context).size.height,
+    return Drawer(
+      elevation: 2,
       child: Stack(
         children: [
           Column(
@@ -195,7 +254,8 @@ class DrawerContainer extends StatelessWidget {
               const Divider(),
               GestureDetector(
                 onTap: () {
-                  openMail();
+                  showModalSheet(context);
+                  // openMail();
                 },
                 child: ListTile(
                   leading: Icon(
@@ -208,7 +268,16 @@ class DrawerContainer extends StatelessWidget {
               const Divider(),
               GestureDetector(
                 onTap: () {
-                  openPrivacyPolicy();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => InAppwebView(
+                        url:
+                            "https://makdeck.blogspot.com/p/privacy-policy.html",
+                        urlType: 'Privacy Policy',
+                      ),
+                    ),
+                  );
                 },
                 child: ListTile(
                   leading: Icon(
@@ -221,6 +290,57 @@ class DrawerContainer extends StatelessWidget {
                 ),
               ),
               const Divider(),
+              GestureDetector(
+                onTap: () {
+                  openPlayStore();
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.star,
+                    color: kPrimaryColor,
+                  ),
+                  title: const Text(
+                    'Rate us',
+                  ),
+                ),
+              ),
+              const Divider(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => InAppwebView(
+                        url:
+                            "https://makdeck.blogspot.com/p/terms-conditions.html",
+                        urlType: 'Terms & Conditions ',
+                      ),
+                    ),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.description,
+                    color: kPrimaryColor,
+                  ),
+                  title: const Text(
+                    'Terms & Conditions',
+                  ),
+                ),
+              ),
+              const Divider(),
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: ListTile(
+              //     leading: Icon(
+              //       Icons.info,
+              //       color: kPrimaryColor,
+              //     ),
+              //     title: const Text(
+              //       'About Us',
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           StreamBuilder<User?>(
