@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:makdeck/models/Cart/cart_product.dart';
+import 'package:makdeck/models/Cart/cart_screen_model.dart';
+import 'package:makdeck/screens/cart_screen.dart';
 import 'package:makdeck/widgets/Products/product_images_coursel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -9,8 +13,6 @@ import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/widgets/review/reviews_lists.dart';
 import 'package:makdeck/widgets/review/star_rating.dart';
-import 'package:whatsapp_unilink/whatsapp_unilink.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 
@@ -18,6 +20,7 @@ import 'package:makdeck/utils/ui/colors.dart';
 
 import 'package:zefyrka/zefyrka.dart';
 
+// ignore: must_be_immutable
 class ProductInfo extends StatelessWidget {
   final ProductModel product;
   ProductInfo({Key? key, required this.product}) : super(key: key);
@@ -26,27 +29,8 @@ class ProductInfo extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final NumberFormat _formatter = NumberFormat('#,###', "en_IN");
 
-  Future<void> _launchWhatsApp({required String product}) async {
-    final String phoneNumber = await CloudDatabase().getContactNumber();
-
-    final link = WhatsAppUnilink(
-      phoneNumber: phoneNumber,
-      text: "Hey! I'm interested in $product",
-    );
-
-    await launch('$link');
-  }
-
-  Future<void> _launchcall() async {
-    final String phoneNumber = await CloudDatabase().getContactNumber();
-
-    final url = "tel:$phoneNumber";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // Product Data Variables
+  int _quantity = 1;
 
   void _addRatingModal(BuildContext context, double deviceWidth) async {
     User? user = await FirebaseAuthentication.getUserStream.first;
@@ -129,6 +113,32 @@ class ProductInfo extends StatelessWidget {
         ),
       );
     });
+  }
+
+  void openLoadingScafold(
+      {required String message, required BuildContext context}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 2,
+        backgroundColor: Colors.black,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(message),
+          ],
+        ),
+        duration: const Duration(seconds: 1),
+        action: SnackBarAction(
+          label: "View Cart",
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (BuildContext context) {
+              return const CartScreen();
+            }));
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -313,6 +323,49 @@ class ProductInfo extends StatelessWidget {
                     }
                   },
                 ),
+                const Divider(),
+                StatefulBuilder(
+                  builder: (BuildContext context, setState) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _quantity--;
+                            });
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.minus,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          _quantity.toString(),
+                          style: TextStyle(
+                              color: kPrimaryColor,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _quantity++;
+                            });
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.add,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const Divider(),
                 Text(
                   "About the Product ",
                   style: TextStyle(
@@ -544,64 +597,39 @@ class ProductInfo extends StatelessWidget {
         Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: MediaQuery.of(context).size.height / 12 + 10,
-              color: Colors.white,
+              height: MediaQuery.of(context).size.height / 12,
+              padding: const EdgeInsets.all(5),
               child: InkWell(
                 onTap: () {
                   if (product.inStocks) {
-                    _launchWhatsApp(product: product.name);
+                    CartProductModel cartProduct = CartProductModel(
+                        productName: product.name,
+                        productId: product.id,
+                        numOfItems: _quantity,
+                        price: double.parse(product.mrp),
+                        image: product.images[0]);
+                    openLoadingScafold(
+                        message: "Product Added to Cart", context: context);
+                    CartScreenModel.cartProducts.add(cartProduct);
                   }
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height / 12,
-                      width: MediaQuery.of(context).size.width / 2 - 10,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: kPrimaryColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          product.inStocks
-                              ? "Buy via WhatsApp"
-                              : "Out of Stock",
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 14,
+                  width: MediaQuery.of(context).size.width / 2 - 10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: kPrimaryColor,
+                  ),
+                  child: Center(
+                    child: Text(
+                      product.inStocks ? "🛒 ADD TO CART" : "Out of Stock",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    InkWell(
-                      onTap: () {
-                        if (product.inStocks) {
-                          _launchcall();
-                        }
-                      },
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 12,
-                        width: MediaQuery.of(context).size.width / 2 - 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: kPrimaryColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            product.inStocks ? "Buy via Call" : "Out of Stock",
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             )),

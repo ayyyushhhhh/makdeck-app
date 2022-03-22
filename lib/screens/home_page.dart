@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/screens/all_products.dart';
+import 'package:makdeck/screens/cart_screen.dart';
 import 'package:makdeck/screens/wishlist_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
@@ -68,6 +69,16 @@ class _HomePageState extends State<HomePage> {
               }));
             },
             icon: const Icon(Icons.favorite_outline),
+            color: kPrimaryColor,
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return const CartScreen();
+              }));
+            },
+            icon: const Icon(Icons.shopping_cart),
             color: kPrimaryColor,
           ),
         ],
