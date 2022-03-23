@@ -14,19 +14,19 @@ enum PaymentMethod {
 }
 
 class OrderModel {
-  final String orderid;
-  final List<CartProductModel> cartproducts;
-  final String userUID;
-  final String userEmail;
-  final String userPhone;
-  final String userAddress;
-  final double paymentAmount;
-  final String trackingID;
-  final String userPaymentMethod;
-  final OrderStatus orderStatus;
-  final String orderDate;
-  final String orderTime;
-  final PaymentMethod paymentMethod;
+  String orderid;
+  List<CartProductModel> cartproducts;
+  String userUID;
+  String userEmail;
+  String userPhone;
+  String userAddress;
+  double paymentAmount;
+  String trackingID;
+  String userPaymentMethod;
+  OrderStatus orderStatus;
+  String orderDate;
+  String orderTime;
+  PaymentMethod paymentMethod;
 
   OrderModel(
       {required this.orderid,

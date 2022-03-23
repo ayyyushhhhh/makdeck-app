@@ -130,10 +130,11 @@ class ProductInfo extends StatelessWidget {
         duration: const Duration(seconds: 1),
         action: SnackBarAction(
           label: "View Cart",
+          textColor: Colors.white,
           onPressed: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return const CartScreen();
+              return CartScreen();
             }));
           },
         ),
@@ -606,7 +607,7 @@ class ProductInfo extends StatelessWidget {
                         productName: product.name,
                         productId: product.id,
                         numOfItems: _quantity,
-                        price: double.parse(product.mrp),
+                        price: double.parse(product.mrp) * _quantity,
                         image: product.images[0]);
                     openLoadingScafold(
                         message: "Product Added to Cart", context: context);

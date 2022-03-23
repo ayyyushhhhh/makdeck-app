@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (BuildContext context) {
-                return const CartScreen();
+                return CartScreen();
               }));
             },
             icon: const Icon(Icons.shopping_cart),
