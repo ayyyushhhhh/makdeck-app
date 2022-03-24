@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
-import 'package:makdeck/services/firebase/cloud_database.dart';
+import 'package:makdeck/services/users/user_firebasedatabase.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -42,7 +42,7 @@ class _ProductImagesCaurselState extends State<ProductImagesCaursel> {
   }
 
   Future<List<String>> _getWishlist() async {
-    return await CloudDatabase()
+    return await UserDataBase()
         .getWishlistProductsid(uid: FirebaseAuthentication.getUserUid);
   }
 
@@ -124,7 +124,7 @@ class _ProductImagesCaurselState extends State<ProductImagesCaursel> {
                   }
 
                   setState(() {
-                    CloudDatabase().addProducttoWishlist(
+                    UserDataBase().addProducttoWishlist(
                         product: widget.product,
                         uid: FirebaseAuthentication.getUserUid);
                     _getWishlist().then((value) {
@@ -135,7 +135,7 @@ class _ProductImagesCaurselState extends State<ProductImagesCaursel> {
                   });
                 } else {
                   setState(() {
-                    CloudDatabase().deleteProductFromWishlist(
+                    UserDataBase().deleteProductFromWishlist(
                         productID: widget.product.id,
                         uid: FirebaseAuthentication.getUserUid);
                     _getWishlist().then((value) {

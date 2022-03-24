@@ -15,7 +15,7 @@ class CartProductModel {
 
   factory CartProductModel.fromMap(Map<String, dynamic> map) {
     return CartProductModel(
-      productName: map['product_name'],
+      productName: map['productName'],
       productId: map['product_id'],
       numOfItems: map['num_of_items'],
       price: map['price'],
@@ -27,7 +27,7 @@ class CartProductModel {
   Map<String, dynamic> toMap() {
     return {
       'productName': productName,
-      'productId': productId,
+      'product_id': productId,
       'num_of_items': numOfItems,
       'price': price,
       'image': image,

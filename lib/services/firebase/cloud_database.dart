@@ -9,64 +9,64 @@ class CloudDatabase {
     _firestore = FirebaseFirestore.instance;
   }
 
-  Future<void> addProducttoWishlist(
-      {required ProductModel product, required String uid}) async {
-    final String productpath = "$uid/Wishlist/Products/${product.id}";
+  // Future<void> addProducttoWishlist(
+  //     {required ProductModel product, required String uid}) async {
+  //   final String productpath = "$uid/Wishlist/Products/${product.id}";
 
-    try {
-      final DocumentReference<Map<String, dynamic>> cloudRef =
-          _firestore.doc(productpath);
-      await cloudRef.set(product.toMap());
-    } on FirebaseException {
-      rethrow;
-    }
-  }
+  //   try {
+  //     final DocumentReference<Map<String, dynamic>> cloudRef =
+  //         _firestore.doc(productpath);
+  //     await cloudRef.set(product.toMap());
+  //   } on FirebaseException {
+  //     rethrow;
+  //   }
+  // }
 
-  Future<void> deleteProductFromWishlist(
-      {required String productID, required String uid}) async {
-    final String productpath = "$uid/Wishlist/Products/$productID";
+  // Future<void> deleteProductFromWishlist(
+  //     {required String productID, required String uid}) async {
+  //   final String productpath = "$uid/Wishlist/Products/$productID";
 
-    try {
-      final DocumentReference<Map<String, dynamic>> cloudRef =
-          _firestore.doc(productpath);
-      await cloudRef.delete();
-    } on FirebaseException {
-      rethrow;
-    }
-  }
+  //   try {
+  //     final DocumentReference<Map<String, dynamic>> cloudRef =
+  //         _firestore.doc(productpath);
+  //     await cloudRef.delete();
+  //   } on FirebaseException {
+  //     rethrow;
+  //   }
+  // }
 
-  Query<ProductModel> getWishlistProducts({required String uid}) {
-    final String productpath = "$uid/Wishlist/Products";
+  // Query<ProductModel> getWishlistProducts({required String uid}) {
+  //   final String productpath = "$uid/Wishlist/Products";
 
-    try {
-      final CollectionReference refrence = _firestore.collection(productpath);
+  //   try {
+  //     final CollectionReference refrence = _firestore.collection(productpath);
 
-      final querypost = refrence.orderBy("name").withConverter<ProductModel>(
-          fromFirestore: (snapshot, _) =>
-              ProductModel.fromMap(snapshot.data()!),
-          toFirestore: (product, _) => product.toMap());
+  //     final querypost = refrence.orderBy("name").withConverter<ProductModel>(
+  //         fromFirestore: (snapshot, _) =>
+  //             ProductModel.fromMap(snapshot.data()!),
+  //         toFirestore: (product, _) => product.toMap());
 
-      return querypost;
-    } on FirebaseException {
-      rethrow;
-    }
-  }
+  //     return querypost;
+  //   } on FirebaseException {
+  //     rethrow;
+  //   }
+  // }
 
-  Future<List<String>> getWishlistProductsid({required String uid}) async {
-    final String productpath = "$uid/Wishlist/Products";
+  // Future<List<String>> getWishlistProductsid({required String uid}) async {
+  //   final String productpath = "$uid/Wishlist/Products";
 
-    try {
-      var collection = FirebaseFirestore.instance.collection(productpath);
-      var querySnapshots = await collection.get();
-      List<String> documentID = [];
-      for (var snapshot in querySnapshots.docs) {
-        documentID.add(snapshot.id);
-      }
-      return documentID;
-    } on Exception {
-      rethrow;
-    }
-  }
+  //   try {
+  //     var collection = FirebaseFirestore.instance.collection(productpath);
+  //     var querySnapshots = await collection.get();
+  //     List<String> documentID = [];
+  //     for (var snapshot in querySnapshots.docs) {
+  //       documentID.add(snapshot.id);
+  //     }
+  //     return documentID;
+  //   } on Exception {
+  //     rethrow;
+  //   }
+  // }
 
   CollectionReference<ProductModel> getProductsData() {
     const String productpath = "Products/";

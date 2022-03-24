@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:makdeck/models/Cart/cart_screen_model.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
+import 'package:makdeck/screens/order_confirm_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/users/user_firebasedatabase.dart';
 import 'package:makdeck/utils/ui/colors.dart';
@@ -454,6 +454,13 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                   state: state);
               UserDataBase().addOrdertoFirebase(
                   order: orderModel, uid: FirebaseAuthentication.getUserUid);
+              CartScreenModel.cartProducts.clear();
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return OrderConfirmScreen(
+                  orderId: orderid,
+                );
+              }));
             },
             child: const Text(
               'CONFIRM ORDER',

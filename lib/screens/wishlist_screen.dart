@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
-import 'package:makdeck/services/firebase/cloud_database.dart';
+import 'package:makdeck/services/users/user_firebasedatabase.dart';
 import 'package:makdeck/widgets/Products/product_container.dart';
 import 'package:makdeck/widgets/Products/shimer_container.dart';
 
@@ -55,7 +55,7 @@ class WishListScreen extends StatelessWidget {
             return Container(
               padding: const EdgeInsets.all(10),
               child: FirestoreQueryBuilder<ProductModel>(
-                query: CloudDatabase().getWishlistProducts(uid: user.uid),
+                query: UserDataBase().getWishlistProducts(uid: user.uid),
                 builder: (context, snapshot, _) {
                   if (snapshot.isFetching) {
                     return GridView.builder(

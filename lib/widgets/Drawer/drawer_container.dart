@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:makdeck/screens/in_app_webview.dart';
+import 'package:makdeck/screens/user_order_screen.dart';
 import 'package:makdeck/screens/wishlist_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
@@ -233,6 +234,31 @@ class DrawerContainer extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+              ),
+              const Divider(),
+              StreamBuilder<User?>(
+                stream: FirebaseAuthentication.getUserStream,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return UserOrderScreen();
+                        }));
+                      },
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.inventory_2,
+                          color: kPrimaryColor,
+                        ),
+                        title: const Text('My Orders'),
+                      ),
+                    );
+                  }
+                  return Container();
                 },
               ),
               const Divider(),
