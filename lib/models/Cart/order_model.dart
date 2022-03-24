@@ -22,26 +22,31 @@ class OrderModel {
   String userAddress;
   double paymentAmount;
   String trackingID;
-  String userPaymentMethod;
-  OrderStatus orderStatus;
+  String orderStatus;
   String orderDate;
   String orderTime;
-  PaymentMethod paymentMethod;
+  String paymentMethod;
+  String pincode;
+  String city;
+  String state;
 
-  OrderModel(
-      {required this.orderid,
-      required this.cartproducts,
-      required this.userUID,
-      required this.userEmail,
-      required this.userPhone,
-      required this.userAddress,
-      required this.paymentAmount,
-      required this.trackingID,
-      required this.userPaymentMethod,
-      required this.orderStatus,
-      required this.orderDate,
-      required this.orderTime,
-      required this.paymentMethod});
+  OrderModel({
+    required this.orderid,
+    required this.cartproducts,
+    required this.userUID,
+    required this.userEmail,
+    required this.userPhone,
+    required this.userAddress,
+    required this.paymentAmount,
+    required this.trackingID,
+    required this.orderStatus,
+    required this.orderDate,
+    required this.orderTime,
+    required this.paymentMethod,
+    required this.pincode,
+    required this.city,
+    required this.state,
+  });
 
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
@@ -55,11 +60,13 @@ class OrderModel {
       userAddress: map['userAddress'],
       paymentAmount: map['paymentAmount'],
       trackingID: map['trackingID'],
-      userPaymentMethod: map['userPaymentMethod'],
       orderStatus: map['orderStatus'],
       orderDate: map['orderDate'],
       orderTime: map['orderTime'],
       paymentMethod: map['paymentMethod'],
+      city: map['city'],
+      pincode: map['pincode'],
+      state: map['state'],
     );
   }
 
@@ -73,11 +80,13 @@ class OrderModel {
       'userAddress': userAddress,
       'paymentAmount': paymentAmount,
       'trackingID': trackingID,
-      'userPaymentMethod': userPaymentMethod,
       'orderStatus': orderStatus,
       'orderDate': orderDate,
       'orderTime': orderTime,
       'paymentMethod': paymentMethod,
+      'city': city,
+      'pincode': pincode,
+      'state': state,
     };
   }
 }

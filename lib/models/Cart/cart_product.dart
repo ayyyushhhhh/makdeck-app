@@ -4,14 +4,14 @@ class CartProductModel {
   final int numOfItems;
   final double price;
   final String image;
-
-  CartProductModel({
-    required this.productName,
-    required this.productId,
-    required this.numOfItems,
-    required this.price,
-    required this.image,
-  });
+  final double originalPrice;
+  CartProductModel(
+      {required this.productName,
+      required this.productId,
+      required this.numOfItems,
+      required this.price,
+      required this.image,
+      required this.originalPrice});
 
   factory CartProductModel.fromMap(Map<String, dynamic> map) {
     return CartProductModel(
@@ -20,6 +20,7 @@ class CartProductModel {
       numOfItems: map['num_of_items'],
       price: map['price'],
       image: map['image'],
+      originalPrice: map['originalPrice'],
     );
   }
 
@@ -27,9 +28,10 @@ class CartProductModel {
     return {
       'productName': productName,
       'productId': productId,
-      'numOfItems': numOfItems,
+      'num_of_items': numOfItems,
       'price': price,
       'image': image,
+      'originalPrice': originalPrice,
     };
   }
 }

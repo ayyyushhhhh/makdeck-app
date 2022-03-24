@@ -604,11 +604,14 @@ class ProductInfo extends StatelessWidget {
                 onTap: () {
                   if (product.inStocks) {
                     CartProductModel cartProduct = CartProductModel(
-                        productName: product.name,
-                        productId: product.id,
-                        numOfItems: _quantity,
-                        price: double.parse(product.mrp) * _quantity,
-                        image: product.images[0]);
+                      productName: product.name,
+                      productId: product.id,
+                      numOfItems: _quantity,
+                      price: double.parse(product.mrp) * _quantity,
+                      image: product.images[0],
+                      originalPrice:
+                          double.parse(product.originalPrice) * _quantity,
+                    );
                     openLoadingScafold(
                         message: "Product Added to Cart", context: context);
                     CartScreenModel.cartProducts.add(cartProduct);
