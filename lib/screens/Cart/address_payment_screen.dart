@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:makdeck/models/Cart/cart_screen_model.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
 import 'package:makdeck/screens/Cart/order_confirm_screen.dart';
@@ -291,7 +293,42 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
         });
   }
 
-// //
+  Future<void> _sendEmail({required OrderModel order}) async {
+    final String message = """
+    Customer Name : ${name.text}\n
+    Payment Typpe : $stringPaymentMethod\n
+    Order ID: ${order.orderid}\n
+    UID: ${order.userUID}\n
+    Contact Number: ${order.userPhone}\n
+    Email: ${order.userEmail}\n
+    Address: ${order.userAddress}\n
+    City: ${order.city}\n
+    State: ${order.state}\n
+    Pincode: ${order.pincode}\n
+    ordered items: ${order.cartproducts[0].productName}\n
+        """;
+    final String subject = "New Makdeck Order ${order.orderid}";
+    const serviceId = "service_r4mpu7g";
+    const templateId = "template_bhmc6yy";
+    const userId = "vC0JQHuSqw7P55afw";
+    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+    await http.post(url,
+        headers: {
+          'origin': 'http://localhost',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          "service_id": serviceId,
+          "template_id": templateId,
+          "user_id": userId,
+          'template_params': {
+            "from_name": order.userEmail,
+            "user_message": message,
+            "user_subject": subject,
+          }
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -447,6 +484,32 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
         child: Center(
           child: GestureDetector(
             onTap: () {
+              if (address.text == "" &&
+                  name.text == "" &&
+                  phone.text == "" &&
+                  city.text == "" &&
+                  pincode.text == "" &&
+                  useremail.text == "") {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Error"),
+                      content: const Text("Please fill all delivery details"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("OK"),
+                        )
+                      ],
+                    );
+                  },
+                );
+                return;
+              }
+
               OrderModel orderModel = OrderModel(
                   orderid: orderid,
                   cartproducts: CartScreenModel.cartProducts,
@@ -463,16 +526,21 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                   pincode: pincode.text,
                   city: city.text,
                   state: state);
+
               SimpleFontelicoProgressDialog _dialog =
                   SimpleFontelicoProgressDialog(
                       context: context, barrierDimisable: false);
               _dialog.show(message: 'Confirming Order...');
+
               UserDataBase().addOrdertoUser(
                   order: orderModel, uid: FirebaseAuthentication.getUserUid);
               CloudDatabase().addOrdertoFirebase(
                   order: orderModel, uid: FirebaseAuthentication.getUserUid);
+              _sendEmail(order: orderModel);
               _dialog.hide();
+
               CartScreenModel.cartProducts.clear();
+
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (BuildContext context) {
                 return OrderConfirmScreen(

@@ -188,7 +188,7 @@ class CartScreen extends StatelessWidget {
                                 fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            "₹" + totalCost.toString(),
+                            "₹ " + totalCost.toString(),
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
