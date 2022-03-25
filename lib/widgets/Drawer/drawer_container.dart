@@ -106,6 +106,9 @@ class DrawerContainer extends StatelessWidget {
         children: [
           Column(
             children: [
+              SizedBox(
+                height: 20,
+              ),
               StreamBuilder<User?>(
                 stream: FirebaseAuthentication.getUserStream,
                 builder:

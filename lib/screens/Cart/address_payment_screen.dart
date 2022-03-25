@@ -211,6 +211,7 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                             Flexible(
                               child: _buildTextContainer(
                                   editingController: pincode,
+                                  isNumber: true,
                                   message: "Pincode"),
                             ),
                             const SizedBox(
