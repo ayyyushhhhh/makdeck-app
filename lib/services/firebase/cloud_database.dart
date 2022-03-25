@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:makdeck/models/Cart/order_model.dart';
 import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/models/Review/review_model.dart';
 
@@ -9,64 +10,17 @@ class CloudDatabase {
     _firestore = FirebaseFirestore.instance;
   }
 
-  // Future<void> addProducttoWishlist(
-  //     {required ProductModel product, required String uid}) async {
-  //   final String productpath = "$uid/Wishlist/Products/${product.id}";
-
-  //   try {
-  //     final DocumentReference<Map<String, dynamic>> cloudRef =
-  //         _firestore.doc(productpath);
-  //     await cloudRef.set(product.toMap());
-  //   } on FirebaseException {
-  //     rethrow;
-  //   }
-  // }
-
-  // Future<void> deleteProductFromWishlist(
-  //     {required String productID, required String uid}) async {
-  //   final String productpath = "$uid/Wishlist/Products/$productID";
-
-  //   try {
-  //     final DocumentReference<Map<String, dynamic>> cloudRef =
-  //         _firestore.doc(productpath);
-  //     await cloudRef.delete();
-  //   } on FirebaseException {
-  //     rethrow;
-  //   }
-  // }
-
-  // Query<ProductModel> getWishlistProducts({required String uid}) {
-  //   final String productpath = "$uid/Wishlist/Products";
-
-  //   try {
-  //     final CollectionReference refrence = _firestore.collection(productpath);
-
-  //     final querypost = refrence.orderBy("name").withConverter<ProductModel>(
-  //         fromFirestore: (snapshot, _) =>
-  //             ProductModel.fromMap(snapshot.data()!),
-  //         toFirestore: (product, _) => product.toMap());
-
-  //     return querypost;
-  //   } on FirebaseException {
-  //     rethrow;
-  //   }
-  // }
-
-  // Future<List<String>> getWishlistProductsid({required String uid}) async {
-  //   final String productpath = "$uid/Wishlist/Products";
-
-  //   try {
-  //     var collection = FirebaseFirestore.instance.collection(productpath);
-  //     var querySnapshots = await collection.get();
-  //     List<String> documentID = [];
-  //     for (var snapshot in querySnapshots.docs) {
-  //       documentID.add(snapshot.id);
-  //     }
-  //     return documentID;
-  //   } on Exception {
-  //     rethrow;
-  //   }
-  // }
+  Future<void> addOrdertoFirebase(
+      {required OrderModel order, required String uid}) async {
+    final String orderPath = "orders/${order.orderid}";
+    try {
+      final DocumentReference<Map<String, dynamic>> cloudRef =
+          _firestore.doc(orderPath);
+      await cloudRef.set(order.toMap());
+    } on FirebaseException {
+      rethrow;
+    }
+  }
 
   CollectionReference<ProductModel> getProductsData() {
     const String productpath = "Products/";

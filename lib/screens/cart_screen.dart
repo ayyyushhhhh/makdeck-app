@@ -88,6 +88,49 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (CartScreenModel.cartProducts.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Cart',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.navigate_before,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: kPrimaryColor,
+
+            // Status bar brightness (optional)
+            statusBarIconBrightness:
+                Brightness.dark, // For Android (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS (dark icons)
+          ),
+        ),
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(color: Colors.white),
+          child: Center(
+            child: Text(
+              "Your Shoping Cart is Empty",
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

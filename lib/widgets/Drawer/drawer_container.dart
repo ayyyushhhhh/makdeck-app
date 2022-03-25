@@ -11,6 +11,7 @@ import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:makdeck/utils/utils.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class DrawerContainer extends StatelessWidget {
   const DrawerContainer({Key? key}) : super(key: key);
@@ -200,7 +201,12 @@ class DrawerContainer extends StatelessWidget {
                   return GestureDetector(
                     onTap: () async {
                       try {
+                        SimpleFontelicoProgressDialog _dialog =
+                            SimpleFontelicoProgressDialog(
+                                context: context, barrierDimisable: false);
+                        _dialog.show(message: 'Loging In...');
                         await FirebaseAuthentication.signInWithGoogle();
+                        _dialog.hide();
                         if (FirebaseAuthentication.isLoggedIn()) {
                           _showToast(context, "User Logged In!");
                         }

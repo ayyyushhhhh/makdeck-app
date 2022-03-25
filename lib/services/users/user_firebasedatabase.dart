@@ -9,7 +9,7 @@ class UserDataBase {
     _firestore = FirebaseFirestore.instance;
   }
 
-  Future<void> addOrdertoFirebase(
+  Future<void> addOrdertoUser(
       {required OrderModel order, required String uid}) async {
     final String orderPath = "users/$uid/orders/${order.orderid}";
     try {

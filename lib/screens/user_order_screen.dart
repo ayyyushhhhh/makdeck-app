@@ -41,7 +41,9 @@ class UserOrderScreen extends StatelessWidget {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10),
+        height: double.infinity,
         child: FirestoreListView<OrderModel>(
+          shrinkWrap: true,
           query: UserDataBase()
               .getUserOrders(uid: FirebaseAuthentication.getUserUid),
           itemBuilder: (BuildContext context, snapshot) {
@@ -50,6 +52,7 @@ class UserOrderScreen extends StatelessWidget {
             return ListView.builder(
               shrinkWrap: true,
               itemCount: products.length,
+              physics: const ClampingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   child: Container(
@@ -73,7 +76,7 @@ class UserOrderScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(

@@ -4,8 +4,10 @@ import 'package:makdeck/models/Cart/cart_screen_model.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
 import 'package:makdeck/screens/order_confirm_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
+import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/services/users/user_firebasedatabase.dart';
 import 'package:makdeck/utils/ui/colors.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 // ignore: must_be_immutable
 class AddressPaymentScreen extends StatefulWidget {
@@ -35,10 +37,12 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
   double discount = 0;
 
   PaymentMethod _paymentMethod = PaymentMethod.cashOnDelivery;
+  String stringPaymentMethod = "Cash On Delivery";
 
   @override
   void initState() {
     super.initState();
+
     for (var i = 0; i < CartScreenModel.cartProducts.length; i++) {
       totalMRP += CartScreenModel.cartProducts[i].price;
       totalOrigialPrice += CartScreenModel.cartProducts[i].originalPrice;
@@ -349,6 +353,10 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                             setState(
                               () {
                                 _paymentMethod = value!;
+                                if (_paymentMethod ==
+                                    PaymentMethod.cashOnDelivery) {
+                                  stringPaymentMethod = "Cash on Delivery";
+                                }
                               },
                             );
                           },
@@ -366,6 +374,9 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                             setState(
                               () {
                                 _paymentMethod = value!;
+                                if (_paymentMethod == PaymentMethod.prepaid) {
+                                  stringPaymentMethod = "Prepaid";
+                                }
                               },
                             );
                           },
@@ -452,8 +463,15 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                   pincode: pincode.text,
                   city: city.text,
                   state: state);
-              UserDataBase().addOrdertoFirebase(
+              SimpleFontelicoProgressDialog _dialog =
+                  SimpleFontelicoProgressDialog(
+                      context: context, barrierDimisable: false);
+              _dialog.show(message: 'Confirming Order...');
+              UserDataBase().addOrdertoUser(
                   order: orderModel, uid: FirebaseAuthentication.getUserUid);
+              CloudDatabase().addOrdertoFirebase(
+                  order: orderModel, uid: FirebaseAuthentication.getUserUid);
+              _dialog.hide();
               CartScreenModel.cartProducts.clear();
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (BuildContext context) {
