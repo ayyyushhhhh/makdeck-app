@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:makdeck/models/Cart/cart_product.dart';
 import 'package:makdeck/models/Cart/cart_screen_model.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
-import 'package:makdeck/screens/address_payment_screen.dart';
+import 'package:makdeck/screens/Cart/address_payment_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 

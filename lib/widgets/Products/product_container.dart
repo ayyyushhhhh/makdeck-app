@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:makdeck/models/Products/product_model.dart';
-import 'package:makdeck/screens/product_info.dart';
+import 'package:makdeck/screens/Products/product_info.dart';
 
 class ProductContainer extends StatelessWidget {
   final ProductModel product;

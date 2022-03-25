@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:makdeck/models/Cart/cart_product.dart';
 import 'package:makdeck/models/Cart/cart_screen_model.dart';
-import 'package:makdeck/screens/cart_screen.dart';
+import 'package:makdeck/screens/Cart/cart_screen.dart';
 import 'package:makdeck/widgets/Products/product_images_coursel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';

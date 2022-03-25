@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:makdeck/models/Cart/cart_screen_model.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
-import 'package:makdeck/screens/order_confirm_screen.dart';
+import 'package:makdeck/screens/Cart/order_confirm_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/firebase/cloud_database.dart';
 import 'package:makdeck/services/users/user_firebasedatabase.dart';
