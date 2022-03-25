@@ -84,6 +84,7 @@ class AllProducts extends StatelessWidget {
                         child: Center(
                             child: Text(
                           "No Internet Connection",
+                          textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline5,
                         )),
                       ),
@@ -95,6 +96,7 @@ class AllProducts extends StatelessWidget {
                       return Center(
                         child: Text(
                           "No Products Available",
+                          textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline4,
                         ),
                       );
@@ -130,6 +132,7 @@ class AllProducts extends StatelessWidget {
                     child: Center(
                         child: Text(
                       "No Internet Connection",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     )),
                   ),
@@ -206,6 +209,7 @@ class AllProducts extends StatelessWidget {
                       child: Center(
                           child: Text(
                         "No Internet Connection",
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline5,
                       )),
                     ),
@@ -217,6 +221,7 @@ class AllProducts extends StatelessWidget {
                     return Center(
                       child: Text(
                         "No Products Available",
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline4,
                       ),
                     );
@@ -252,6 +257,7 @@ class AllProducts extends StatelessWidget {
                   child: Center(
                       child: Text(
                     "No Internet Connection",
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline5,
                   )),
                 ),

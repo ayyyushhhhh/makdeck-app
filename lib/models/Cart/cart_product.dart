@@ -1,8 +1,8 @@
 class CartProductModel {
   final String productName;
   final String productId;
-  final int numOfItems;
-  final double price;
+  int numOfItems;
+  double price;
   final String image;
   final double originalPrice;
   CartProductModel(

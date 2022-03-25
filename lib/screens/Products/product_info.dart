@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:makdeck/models/Cart/cart_product.dart';
-import 'package:makdeck/models/Cart/cart_screen_model.dart';
+import 'package:makdeck/models/Cart/cart_service.dart';
 import 'package:makdeck/screens/Cart/cart_screen.dart';
 import 'package:makdeck/widgets/Products/product_images_coursel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -127,14 +127,14 @@ class ProductInfo extends StatelessWidget {
             Text(message),
           ],
         ),
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 3),
         action: SnackBarAction(
           label: "View Cart",
           textColor: Colors.white,
           onPressed: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return CartScreen();
+              return const CartScreen();
             }));
           },
         ),
@@ -299,9 +299,12 @@ class ProductInfo extends StatelessWidget {
                     } else {
                       return Row(
                         children: [
-                          Text(
+                          const Text(
                             "Ratings - ",
-                            style: Theme.of(context).textTheme.headline4,
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey),
                           ),
                           const SizedBox(
                             width: 5,
@@ -334,6 +337,10 @@ class ProductInfo extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             setState(() {
+                              if (_quantity == 1) {
+                                _quantity = 1;
+                                return;
+                              }
                               _quantity--;
                             });
                           },
@@ -614,12 +621,21 @@ class ProductInfo extends StatelessWidget {
                     );
                     openLoadingScafold(
                         message: "Product Added to Cart", context: context);
-                    CartScreenModel.cartProducts.add(cartProduct);
+
+                    for (var cartProduct in CartService.cartProducts) {
+                      if (cartProduct.productId == product.id) {
+                        cartProduct.numOfItems =
+                            _quantity + cartProduct.numOfItems;
+                        cartProduct.price =
+                            cartProduct.numOfItems * double.parse(product.mrp);
+                        return;
+                      }
+                    }
+                    CartService.cartProducts.add(cartProduct);
                   }
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height / 14,
-                  width: MediaQuery.of(context).size.width / 2 - 10,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: kPrimaryColor,
@@ -627,6 +643,7 @@ class ProductInfo extends StatelessWidget {
                   child: Center(
                     child: Text(
                       product.inStocks ? "🛒 ADD TO CART" : "Out of Stock",
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

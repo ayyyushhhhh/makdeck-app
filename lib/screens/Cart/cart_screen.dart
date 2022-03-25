@@ -4,19 +4,24 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:makdeck/models/Cart/cart_product.dart';
-import 'package:makdeck/models/Cart/cart_screen_model.dart';
+import 'package:makdeck/models/Cart/cart_service.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
 import 'package:makdeck/screens/Cart/address_payment_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/utils/ui/colors.dart';
 
-// ignore: must_be_immutable
-class CartScreen extends StatelessWidget {
-  CartScreen({Key? key}) : super(key: key);
+class CartScreen extends StatefulWidget {
+  const CartScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late OrderModel orderModel;
+
   double totalCost = 0;
 
   Widget _buildCartItem(CartProductModel productModel) {
@@ -29,8 +34,8 @@ class CartScreen extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width: 100,
+              height: 100,
               child: CachedNetworkImage(
                   fit: BoxFit.cover, imageUrl: productModel.image),
             ),
@@ -64,6 +69,7 @@ class CartScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Quantity : ',
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: kPrimaryColor, fontSize: 10),
                       ),
                       Text(
@@ -71,6 +77,28 @@ class CartScreen extends StatelessWidget {
                         style: TextStyle(color: Colors.black, fontSize: 10),
                       ),
                     ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      CartService.cartProducts.remove(productModel);
+                      totalCost = 0;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(width: 1, color: Colors.black54)),
+                    child: Text(
+                      'Delete',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: kPrimaryColor, fontSize: 8),
+                    ),
                   ),
                 ),
               ],
@@ -88,7 +116,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (CartScreenModel.cartProducts.isEmpty) {
+    if (CartService.cartProducts.isEmpty) {
       return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -161,14 +189,12 @@ class CartScreen extends StatelessWidget {
       body: ListView.separated(
           physics: AlwaysScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-            if (index < CartScreenModel.cartProducts.length) {
-              CartProductModel cartProduct =
-                  CartScreenModel.cartProducts[index];
+            if (index < CartService.cartProducts.length) {
+              CartProductModel cartProduct = CartService.cartProducts[index];
 
               return _buildCartItem(cartProduct);
             }
-            for (int i = 0; i < CartScreenModel.cartProducts.length; i++) {
-              CartProductModel cartProduct = CartScreenModel.cartProducts[i];
+            for (final cartProduct in CartService.cartProducts) {
               totalCost += cartProduct.price;
             }
             return Column(
@@ -211,7 +237,7 @@ class CartScreen extends StatelessWidget {
               color: Colors.grey,
             );
           },
-          itemCount: CartScreenModel.cartProducts.length + 1),
+          itemCount: CartService.cartProducts.length + 1),
       bottomSheet: Container(
         height: MediaQuery.of(context).size.height / 10,
         width: MediaQuery.of(context).size.width,

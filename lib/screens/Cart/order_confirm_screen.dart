@@ -51,6 +51,7 @@ class OrderConfirmScreen extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Continue Shopping",
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),

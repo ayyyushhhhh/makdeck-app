@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:makdeck/models/Cart/cart_screen_model.dart';
+import 'package:makdeck/models/Cart/cart_service.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
 import 'package:makdeck/screens/Cart/order_confirm_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
@@ -45,9 +45,9 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
   void initState() {
     super.initState();
 
-    for (var i = 0; i < CartScreenModel.cartProducts.length; i++) {
-      totalMRP += CartScreenModel.cartProducts[i].price;
-      totalOrigialPrice += CartScreenModel.cartProducts[i].originalPrice;
+    for (var i = 0; i < CartService.cartProducts.length; i++) {
+      totalMRP += CartService.cartProducts[i].price;
+      totalOrigialPrice += CartService.cartProducts[i].originalPrice;
       discount = totalOrigialPrice - totalMRP;
     }
   }
@@ -513,7 +513,7 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
 
               OrderModel orderModel = OrderModel(
                   orderid: orderid,
-                  cartproducts: CartScreenModel.cartProducts,
+                  cartproducts: CartService.cartProducts,
                   userUID: FirebaseAuthentication.getUserUid,
                   userEmail: useremail.text,
                   userPhone: phone.text,
@@ -540,7 +540,7 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
               _sendEmail(order: orderModel);
               _dialog.hide();
 
-              CartScreenModel.cartProducts.clear();
+              CartService.cartProducts.clear();
 
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (BuildContext context) {
