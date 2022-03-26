@@ -34,8 +34,8 @@ class _CartScreenState extends State<CartScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: SizedBox(
-              width: 100,
-              height: 100,
+              width: 70,
+              height: 70,
               child: CachedNetworkImage(
                   fit: BoxFit.cover, imageUrl: productModel.image),
             ),
