@@ -16,7 +16,7 @@ Visit Makdeck beauty store for the virtual products catalog. You have the option
 
 Download Korea's exclusive beauty products app online and enhance your skin with a wide range of imported beauty products.
 
-Have any questions or issues related to the Makdeck beauty app? Reach out to us at makdeckcare@gmail.com. Call us on +91 8287889010.
+Have any questions or issues related to the Makdeck beauty app? Reach out to me at ayush002rawat@gmail.com. 
 
     
 ## 🔗 Download here
