@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +6,7 @@ import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/users/user_firebasedatabase.dart';
 import 'package:makdeck/utils/ui/colors.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ProductImagesCaursel extends StatefulWidget {
   final ProductModel product;
@@ -24,22 +20,22 @@ class ProductImagesCaursel extends StatefulWidget {
 class _ProductImagesCaurselState extends State<ProductImagesCaursel> {
   final ScreenshotController _screenshotController = ScreenshotController();
   List<String> wishlistproducts = [];
-  Future<void> _shareScreenshot(ScreenshotController controller) async {
-    final imageBytes = await _screenshotController.capture();
-    final directory = await getApplicationDocumentsDirectory();
-    final image = File('${directory.path}/screenshot${DateTime.now()}.png');
-    if (imageBytes != null) {
-      image.writeAsBytesSync(imageBytes);
+  // Future<void> _shareScreenshot(ScreenshotController controller) async {
+  //   final imageBytes = await _screenshotController.capture();
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final image = File('${directory.path}/screenshot${DateTime.now()}.png');
+  //   if (imageBytes != null) {
+  //     image.writeAsBytesSync(imageBytes);
 
-      const String appURl =
-          "https://play.google.com/store/apps/details?id=com.scarecrowhouse.makdeck";
-      await Share.shareFiles(
-        [image.path],
-        text:
-            "Check this out ${widget.product.name} on makdeck. Download the app now - $appURl ",
-      );
-    }
-  }
+  //     const String appURl =
+  //         "https://play.google.com/store/apps/details?id=com.scarecrowhouse.makdeck";
+  //     await Share.shareXFiles(
+  //       [image.path],
+  //       text:
+  //           "Check this out ${widget.product.name} on makdeck. Download the app now - $appURl ",
+  //     );
+  //   }
+  // }
 
   Future<List<String>> _getWishlist() async {
     return await UserDataBase()
@@ -97,7 +93,7 @@ class _ProductImagesCaurselState extends State<ProductImagesCaursel> {
           top: 10,
           child: IconButton(
             onPressed: () {
-              _shareScreenshot(_screenshotController);
+              // _shareScreenshot(_screenshotController);
             },
             icon: Icon(
               Icons.share_rounded,

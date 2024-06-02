@@ -25,9 +25,7 @@ class InAppwebView extends StatelessWidget {
                   : Container()),
           Expanded(
             child: InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: Uri.parse(url),
-              ),
+              initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))),
               onLoadStop: (controller, url) async {
                 await controller.evaluateJavascript(source: "var foo = 49;");
                 await controller.evaluateJavascript(

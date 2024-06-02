@@ -85,7 +85,7 @@ class AllProducts extends StatelessWidget {
                             child: Text(
                           "No Internet Connection",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         )),
                       ),
                     );
@@ -97,7 +97,7 @@ class AllProducts extends StatelessWidget {
                         child: Text(
                           "No Products Available",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       );
                     }
@@ -133,7 +133,7 @@ class AllProducts extends StatelessWidget {
                         child: Text(
                       "No Internet Connection",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     )),
                   ),
                 );
@@ -210,7 +210,7 @@ class AllProducts extends StatelessWidget {
                           child: Text(
                         "No Internet Connection",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       )),
                     ),
                   );
@@ -222,7 +222,7 @@ class AllProducts extends StatelessWidget {
                       child: Text(
                         "No Products Available",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     );
                   }
@@ -258,7 +258,7 @@ class AllProducts extends StatelessWidget {
                       child: Text(
                     "No Internet Connection",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   )),
                 ),
               );

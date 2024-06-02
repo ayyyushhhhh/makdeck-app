@@ -36,7 +36,7 @@ class ProductInfo extends StatelessWidget {
     User? user = await FirebaseAuthentication.getUserStream.first;
     ReviewModel review = await CloudDatabase()
         .getReview(productID: product.id, uid: user!.uid.toString());
-    _scaffoldKey.currentState!.showBottomSheet<void>((BuildContext context) {
+    _scaffoldKey.currentState!.showBottomSheet((BuildContext context) {
       int stars = review.rating;
       String reviewComment = review.review;
       return Container(
@@ -54,7 +54,7 @@ class ProductInfo extends StatelessWidget {
             children: [
               Text(
                 "Rate the Product",
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               StarRating(
                 onRatingChanged: (rating) {
@@ -205,8 +205,8 @@ class ProductInfo extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "₹ " +
-                            _formatter.format(int.parse(product.originalPrice)),
+                        text:
+                            "₹ ${_formatter.format(int.parse(product.originalPrice))}",
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -216,7 +216,7 @@ class ProductInfo extends StatelessWidget {
                       ),
                       TextSpan(
                         text:
-                            '  ₹ ' + _formatter.format(int.parse(product.mrp)),
+                            '  ₹ ${_formatter.format(int.parse(product.mrp))}',
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,

@@ -107,8 +107,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(
             width: 10,
           ),
-          Text("₹ " + productModel.price.toString(),
-              style: const TextStyle(fontSize: 16))
+          Text("₹ ${productModel.price}", style: const TextStyle(fontSize: 16))
         ],
       ),
     );
@@ -214,7 +213,7 @@ class _CartScreenState extends State<CartScreen> {
                                 fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            "₹ " + totalCost.toString(),
+                            "₹ $totalCost",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,

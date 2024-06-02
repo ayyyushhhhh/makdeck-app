@@ -173,7 +173,8 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Center(
-                child: Column(mainAxisSize: MainAxisSize.min,
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     // mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(
@@ -439,7 +440,7 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text("Total MRP"),
-                      Text("₹ " + totalOrigialPrice.toString()),
+                      Text("₹ $totalOrigialPrice"),
                     ],
                   ),
                   const SizedBox(
@@ -450,7 +451,7 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                     children: [
                       const Text("Discount on MRP"),
                       Text(
-                        "- " "₹ " + discount.toString(),
+                        "- ₹ $discount",
                         style: TextStyle(color: kPrimaryColor),
                       ),
                     ],
@@ -463,7 +464,7 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                     children: [
                       const Text("Total Amount"),
                       Text(
-                        "₹ " + totalMRP.toString(),
+                        "₹ $totalMRP",
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -528,17 +529,17 @@ class _AddressPaymentScreenState extends State<AddressPaymentScreen> {
                   city: city.text,
                   state: state);
 
-              SimpleFontelicoProgressDialog _dialog =
+              SimpleFontelicoProgressDialog dialog =
                   SimpleFontelicoProgressDialog(
                       context: context, barrierDimisable: false);
-              _dialog.show(message: 'Confirming Order...');
+              dialog.show(message: 'Confirming Order...');
 
               UserDataBase().addOrdertoUser(
                   order: orderModel, uid: FirebaseAuthentication.getUserUid);
               CloudDatabase().addOrdertoFirebase(
                   order: orderModel, uid: FirebaseAuthentication.getUserUid);
               _sendEmail(order: orderModel);
-              _dialog.hide();
+              dialog.hide();
 
               CartService.cartProducts.clear();
 

@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                         User user = snapshot.data;
                         final name = user.displayName!.split(" ");
                         return Text(
-                          "Hi " + name[0] + ",",
+                          "Hi ${name[0]},",
                           style: TextStyle(
                             fontSize: width / 15,
                             fontWeight: FontWeight.bold,
@@ -264,7 +265,6 @@ class _HomePageState extends State<HomePage> {
                   //     ),
                   //   );
                   // }
-
                 } else if (snapshot.hasError) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height / 2.8,
@@ -282,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                     child: Center(
                         child: Text(
                       "No Internet Connection",
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     )),
                   ),
                 );

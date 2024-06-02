@@ -90,7 +90,7 @@ class UserOrderScreen extends StatelessWidget {
                                 height: 6,
                               ),
                               Text(
-                                "Order ID : " + order.orderid,
+                                "Order ID : ${order.orderid}",
                                 style: TextStyle(
                                     fontSize: 12, color: kPrimaryColor),
                               ),
@@ -98,8 +98,7 @@ class UserOrderScreen extends StatelessWidget {
                                 height: 6,
                               ),
                               Text(
-                                "Quantiy : " +
-                                    products[index].numOfItems.toString(),
+                                "Quantiy : ${products[index].numOfItems}",
                                 style: const TextStyle(
                                     fontSize: 12, color: Colors.black),
                               ),
@@ -107,8 +106,7 @@ class UserOrderScreen extends StatelessWidget {
                                 height: 6,
                               ),
                               Text(
-                                "Total Amount : ₹ " +
-                                    products[index].price.toString(),
+                                "Total Amount : ₹ ${products[index].price}",
                                 style: const TextStyle(
                                     fontSize: 12, color: Colors.black),
                               ),
@@ -116,9 +114,7 @@ class UserOrderScreen extends StatelessWidget {
                                 height: 6,
                               ),
                               Text(
-                                "Ordered on : " +
-                                    DateFormat.yMMMMd('en_US').format(
-                                        DateTime.parse(order.orderTime)),
+                                "Ordered on : ${DateFormat.yMMMMd('en_US').format(DateTime.parse(order.orderTime))}",
                                 style: const TextStyle(
                                     fontSize: 12, color: Colors.black),
                               ),

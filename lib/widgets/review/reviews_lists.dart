@@ -9,6 +9,7 @@ class ReviewsListView extends StatefulWidget {
   const ReviewsListView({Key? key, required this.productId}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ReviewsListViewState createState() => _ReviewsListViewState();
 }
 

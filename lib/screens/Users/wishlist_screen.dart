@@ -75,7 +75,7 @@ class WishListScreen extends StatelessWidget {
                       return Center(
                         child: Text(
                           "Empty Wishlist",
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       );
                     }
@@ -109,7 +109,7 @@ class WishListScreen extends StatelessWidget {
                         child: Center(
                             child: Text(
                           "No Internet Connection",
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         )),
                       ),
                     );
@@ -122,7 +122,7 @@ class WishListScreen extends StatelessWidget {
                       child: Center(
                           child: Text(
                         "No Internet Connection",
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       )),
                     ),
                   );

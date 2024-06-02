@@ -204,16 +204,18 @@ class DrawerContainer extends StatelessWidget {
                   return GestureDetector(
                     onTap: () async {
                       try {
-                        SimpleFontelicoProgressDialog _dialog =
+                        SimpleFontelicoProgressDialog dialog =
                             SimpleFontelicoProgressDialog(
                                 context: context, barrierDimisable: false);
-                        _dialog.show(message: 'Loging In...');
+                        dialog.show(message: 'Loging In...');
                         await FirebaseAuthentication.signInWithGoogle();
-                        _dialog.hide();
+                        dialog.hide();
                         if (FirebaseAuthentication.isLoggedIn()) {
+                          // ignore: use_build_context_synchronously
                           _showToast(context, "User Logged In!");
                         }
                       } on PlatformException {
+                        // ignore: use_build_context_synchronously
                         _showToast(context, "User Log In Failed!");
                       }
                     },

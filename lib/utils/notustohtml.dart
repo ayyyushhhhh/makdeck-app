@@ -35,7 +35,7 @@ class _NotusHtmlEncoder extends Converter<Delta, String> {
     var currentInlineStyle = NotusStyle();
     var currentBlockLines = [];
 
-    void _handleBlock(NotusAttribute<String>? blockStyle) {
+    void handleBlock(NotusAttribute<String>? blockStyle) {
       if (currentBlockLines.isEmpty) {
         return; // Empty block
       }
@@ -71,7 +71,7 @@ class _NotusHtmlEncoder extends Converter<Delta, String> {
       buffer.writeln();
     }
 
-    void _handleSpan(String text, Map<String, dynamic>? attributes,
+    void handleSpan(String text, Map<String, dynamic>? attributes,
         {bool hr = false, String? source}) {
       final style = NotusStyle.fromJson(attributes);
       currentInlineStyle = _writeInline(
@@ -79,13 +79,13 @@ class _NotusHtmlEncoder extends Converter<Delta, String> {
           hr: hr, source: source);
     }
 
-    void _handleLine(Map<String, dynamic>? attributes) {
+    void handleLine(Map<String, dynamic>? attributes) {
       final style = NotusStyle.fromJson(attributes);
       final lineBlock = style.get(NotusAttribute.block);
       if (lineBlock == currentBlockStyle) {
         currentBlockLines.add(_writeLine(lineBuffer.toString(), style));
       } else {
-        _handleBlock(currentBlockStyle);
+        handleBlock(currentBlockStyle);
         currentBlockLines.clear();
         currentBlockLines.add(_writeLine(lineBuffer.toString(), style));
 
@@ -120,18 +120,18 @@ class _NotusHtmlEncoder extends Converter<Delta, String> {
       final opText = op.data is String ? op.data as String : '';
       final lf = opText.indexOf('\n');
       if (lf == -1) {
-        _handleSpan(opText, op.attributes, hr: hr, source: source);
+        handleSpan(opText, op.attributes, hr: hr, source: source);
       } else {
         var span = StringBuffer();
         for (var i = 0; i < opText.length; i++) {
           if (opText.codeUnitAt(i) == 0x0A) {
             if (span.isNotEmpty) {
               // Write the span if it's not empty.
-              _handleSpan(span.toString(), op.attributes);
+              handleSpan(span.toString(), op.attributes);
             }
             // Close any open inline styles.
-            _handleSpan('', null);
-            _handleLine(op.attributes);
+            handleSpan('', null);
+            handleLine(op.attributes);
             span.clear();
           } else {
             span.writeCharCode(opText.codeUnitAt(i));
@@ -139,11 +139,11 @@ class _NotusHtmlEncoder extends Converter<Delta, String> {
         }
         // Remaining span
         if (span.isNotEmpty) {
-          _handleSpan(span.toString(), op.attributes);
+          handleSpan(span.toString(), op.attributes);
         }
       }
     }
-    _handleBlock(currentBlockStyle); // Close the last block
+    handleBlock(currentBlockStyle); // Close the last block
     return buffer.toString().replaceAll("\n", "<br>");
   }
 
@@ -335,7 +335,7 @@ class _NotusHtmlDecoder extends Converter<String, Delta> {
       if (next != null &&
           next.runtimeType == Element &&
           next.localName == "br") {
-        delta..insert(text.text + "\n");
+        delta..insert("${text.text}\n");
       } else {
         delta..insert(text.text);
       }
@@ -418,7 +418,7 @@ class _NotusHtmlDecoder extends Converter<String, Delta> {
           if (next != null &&
               next.runtimeType == Element &&
               next.localName == "br") {
-            delta..insert(element.text + "\n", attributes);
+            delta..insert("${element.text}\n", attributes);
           } else {
             delta..insert(element.text, attributes);
           }
