@@ -6,7 +6,6 @@ import 'package:makdeck/screens/Products/all_products.dart';
 import 'package:makdeck/screens/Cart/cart_screen.dart';
 import 'package:makdeck/screens/Users/wishlist_screen.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
-
 import 'package:makdeck/utils/ui/colors.dart';
 import 'package:makdeck/widgets/Products/categories_container.dart';
 import 'package:makdeck/widgets/Drawer/drawer_container.dart';

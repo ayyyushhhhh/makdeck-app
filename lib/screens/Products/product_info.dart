@@ -35,7 +35,7 @@ class ProductInfo extends StatelessWidget {
   void _addRatingModal(BuildContext context, double deviceWidth) async {
     User? user = await FirebaseAuthentication.getUserStream.first;
     ReviewModel review = await CloudDatabase()
-        .getReview(productID: product.id, uid: user!.uid.toString());
+        .getMyReview(productID: product.id, uid: user!.uid.toString());
     _scaffoldKey.currentState!.showBottomSheet((BuildContext context) {
       int stars = review.rating;
       String reviewComment = review.review;

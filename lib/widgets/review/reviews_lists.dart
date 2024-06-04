@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:makdeck/models/Review/review_model.dart';
+import 'package:makdeck/services/firebase/cloud_database.dart';
+import 'package:makdeck/widgets/review/review_container.dart';
 
 class ReviewsListView extends StatefulWidget {
   final String productId;
@@ -33,56 +36,40 @@ class _ReviewsListViewState extends State<ReviewsListView> {
         const SizedBox(
           height: 5,
         ),
-        // FirestorePagination(
-        //   query: CloudDatabase().getReviews(productID: widget.productId),
-        //   limit: 3,
-        //   itemBuilder: (context, documentSnapshot, index) {
-        //     final data = documentSnapshot.data() as Map<String, dynamic>;
-        //     final review = ReviewModel.fromMap(data);
-        //     return Container();
-
-        //     // Do something cool with the data
-        //   },
-        // ),
-
-        // FirestoreQueryBuilder<ReviewModel>(
-        //     query: CloudDatabase().getReviews(productID: widget.productId),
-        //     pageSize: 3,
-        //     builder: (context, snapshot, _) {
-        //       if (snapshot.hasData) {
-        //         if (snapshot.docs.isEmpty) {
-        //           return const Center(
-        //             child: Text("No Reviews Yet"),
-        //           );
-        //         }
-
-        //         return ListView.builder(
-        //           shrinkWrap: true,
-        //           itemCount: snapshot.docs.length,
-        //           physics: const ScrollPhysics(),
-        //           scrollDirection: Axis.vertical,
-        //           itemBuilder: (BuildContext context, int index) {
-        //             final hasreachedEnd = snapshot.hasMore &&
-        //                 index + 1 == snapshot.docs.length &&
-        //                 !snapshot.isFetchingMore;
-
-        //             if (hasreachedEnd) {
-        //               snapshot.fetchMore();
-        //             }
-        //             final review = snapshot.docs[index].data();
-
-        //             if (review.review != "") {
-        //               return ReviewContainer(review: review);
-        //             }
-        //             return Container();
-        //           },
-        //         );
-        //       } else {
-        //         return const Center(
-        //           child: Text("No Reviews Yet"),
-        //         );
-        //       }
-        //     }),
+        FutureBuilder<List<ReviewModel>>(
+            future: CloudDatabase().getReviews(productID: widget.productId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasData) {
+                List<ReviewModel> reviews = snapshot.data!;
+                if (reviews.isEmpty) {
+                  return const Center(
+                    child: Text("No Reviews Yet"),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: reviews.length,
+                  physics: const ScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    final review = reviews[index];
+                    if (review.review != "") {
+                      return ReviewContainer(review: review);
+                    }
+                    return Container();
+                  },
+                );
+              } else {
+                return const Center(
+                  child: Text("No Reviews Yet"),
+                );
+              }
+            })
       ],
     );
   }

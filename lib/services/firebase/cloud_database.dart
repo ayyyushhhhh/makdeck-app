@@ -91,20 +91,20 @@ class CloudDatabase {
     }
   }
 
-  CollectionReference<ReviewModel> getReviews({required String productID}) {
-    final String reviewpath = "ProductReviews/Reviews/$productID";
-    try {
-      final CollectionReference refrence = _firestore.collection(reviewpath);
+  // CollectionReference<ReviewModel> getReviews({required String productID}) {
+  //   final String reviewpath = "ProductReviews/Reviews/$productID";
+  //   try {
+  //     final CollectionReference refrence = _firestore.collection(reviewpath);
 
-      final querypost = refrence.withConverter<ReviewModel>(
-          fromFirestore: (snapshot, _) => ReviewModel.fromMap(snapshot.data()!),
-          toFirestore: (review, _) => review.toMap());
+  //     final querypost = refrence.withConverter<ReviewModel>(
+  //         fromFirestore: (snapshot, _) => ReviewModel.fromMap(snapshot.data()!),
+  //         toFirestore: (review, _) => review.toMap());
 
-      return querypost;
-    } on Exception {
-      rethrow;
-    }
-  }
+  //     return querypost;
+  //   } on Exception {
+  //     rethrow;
+  //   }
+  // }
 
   Future<double> getRatings({required String productID}) async {
     final String reviewpath = "ProductReviews/Reviews/$productID";
@@ -130,7 +130,27 @@ class CloudDatabase {
     }
   }
 
-  Future<ReviewModel> getReview(
+  Future<List<ReviewModel>> getReviews({required String productID}) async {
+    final String reviewpath = "ProductReviews/Reviews/$productID";
+    try {
+      final CollectionReference refrence = _firestore.collection(reviewpath);
+      final QuerySnapshot productSnapshot = await refrence.get();
+      List<ReviewModel> reviews = [];
+
+      final allData = productSnapshot.docs.map((doc) => doc.data()).toList();
+
+      for (final data in allData) {
+        final review = ReviewModel.fromMap(data! as Map<String, dynamic>);
+        reviews.add(review);
+      }
+
+      return reviews;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<ReviewModel> getMyReview(
       {required String productID, required String uid}) async {
     final String reviewpath = "ProductReviews/Reviews/$productID/$uid";
     try {

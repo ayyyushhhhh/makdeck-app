@@ -101,6 +101,20 @@ class UserDataBase {
     }
   }
 
+  Stream<QuerySnapshot> retrieveUserOrders({required String uid}) {
+    const String orderPath = "orders/";
+
+    try {
+      final CollectionReference refrence = _firestore.collection(orderPath);
+
+      Stream<QuerySnapshot> querySnapshot =
+          refrence.where("userUID", isEqualTo: uid).snapshots();
+      return querySnapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<OrderModel>> getUserOrders({required String uid}) async {
     List<OrderModel> orders = [];
 
