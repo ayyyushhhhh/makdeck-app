@@ -22,6 +22,25 @@
           }
         },
         {
+<<<<<<< HEAD
+=======
+          "client_id": "757308584361-f83v65lau24ekjl8l9gvatmgdmjha3uk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scarecrowhouse.makdeck",
+            "certificate_hash": "dfe10a83de80851e29e0ef8b52628b9cb4009e50"
+          }
+        },
+        {
+          "client_id": "757308584361-pot09pfo3etr2dmn1emcq1oh9fi4idjk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scarecrowhouse.makdeck",
+            "certificate_hash": "b2ea9d34634006390305e70d6d549268ff221ee3"
+          }
+        },
+        {
+>>>>>>> e9b4dad (updated)
           "client_id": "757308584361-7rfd7u9i5tbvqaamq1but3kcvke767fe.apps.googleusercontent.com",
           "client_type": 3
         }

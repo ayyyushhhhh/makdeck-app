@@ -15,7 +15,46 @@ class UserDataBase {
     try {
       final DocumentReference<Map<String, dynamic>> cloudRef =
           _firestore.doc(orderPath);
-      await cloudRef.set(order.toMap());
+      await cloudRef.set({"order": order.orderid});
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  Future<List<ProductModel>> retrieveWishlist({required String uid}) async {
+    List<ProductModel> orders = [];
+
+    final String wishlistPath = "users/$uid/Wishlist/";
+
+    try {
+      final collectionReference = _firestore.collection(wishlistPath);
+      // .limit(limit) ;
+
+      final QuerySnapshot collectionsQuery = await collectionReference.get();
+
+      if (collectionsQuery.docs.isEmpty) {
+        return orders;
+      }
+      for (var document in collectionsQuery.docs) {
+        orders.add(await retrieveProductById(id: document.id));
+      }
+      return orders;
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  Future<ProductModel> retrieveProductById({required String id}) async {
+    final String orderPath = "Products/$id/";
+
+    try {
+      final DocumentReference documentReference = _firestore.doc(orderPath);
+      final DocumentSnapshot orderDocumentSnapshot =
+          await documentReference.get();
+
+      ProductModel orderModel = ProductModel.fromMap(
+          orderDocumentSnapshot.data() as Map<String, dynamic>);
+      return orderModel;
     } on FirebaseException {
       rethrow;
     }
@@ -27,7 +66,7 @@ class UserDataBase {
     try {
       final DocumentReference<Map<String, dynamic>> cloudRef =
           _firestore.doc(orderPath);
-      await cloudRef.set(product.toMap());
+      await cloudRef.set({"product": product.id});
     } on FirebaseException {
       rethrow;
     }
@@ -79,20 +118,42 @@ class UserDataBase {
     }
   }
 
-  Query<OrderModel> getUserOrders({required String uid}) {
-    final String orderPath = "users/$uid/orders/";
+  Future<List<OrderModel>> getUserOrders({required String uid}) async {
+    List<OrderModel> orders = [];
+
+    final String wishlistPath = "users/$uid/orders/";
+
     try {
-      final CollectionReference refrence = _firestore.collection(orderPath);
+      final collectionReference = _firestore.collection(wishlistPath);
+      // .limit(limit) ;
 
-      final querypost = refrence
-          .orderBy('orderDate', descending: true)
-          .withConverter<OrderModel>(
-              fromFirestore: (snapshot, _) =>
-                  OrderModel.fromMap(snapshot.data()!),
-              toFirestore: (order, _) => order.toMap());
+      final QuerySnapshot collectionsQuery = await collectionReference.get();
 
-      return querypost;
-    } on Exception {
+      if (collectionsQuery.docs.isEmpty) {
+        return orders;
+      }
+      for (var document in collectionsQuery.docs) {
+        orders.add(await retrieveOrderById(id: document.id, uid: uid));
+      }
+      return orders;
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  Future<OrderModel> retrieveOrderById(
+      {required String uid, required String id}) async {
+    final String orderPath = "users/$uid/orders/$id";
+
+    try {
+      final DocumentReference documentReference = _firestore.doc(orderPath);
+      final DocumentSnapshot orderDocumentSnapshot =
+          await documentReference.get();
+
+      OrderModel orderModel = OrderModel.fromMap(
+          orderDocumentSnapshot.data() as Map<String, dynamic>);
+      return orderModel;
+    } on FirebaseException {
       rethrow;
     }
   }

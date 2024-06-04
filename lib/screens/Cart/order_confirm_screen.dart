@@ -38,6 +38,11 @@ class OrderConfirmScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    // kPrimaryColor.withOpacity(.16),
+                    Colors.white,
+              ),
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -47,12 +52,12 @@ class OrderConfirmScreen extends StatelessWidget {
               },
               child: const SizedBox(
                 width: double.infinity,
-                height: 80,
+                height: 60,
                 child: Center(
                   child: Text(
                     "Continue Shopping",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

@@ -36,12 +36,20 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_inappwebview: ^6.0.0
+<<<<<<< HEAD
   flutterfire_ui: ^0.4.3+20
+=======
+  firebase_pagination: ^3.1.0
+>>>>>>> e9b4dad (updated)
   fluttertoast: ^8.0.8
   google_sign_in: ^5.2.1
   html: ^0.15.0
   http: ^1.2.1
+<<<<<<< HEAD
   intl: ^0.18.1
+=======
+  intl: ^0.19.0
+>>>>>>> e9b4dad (updated)
   notus: ^1.0.0-rc.1
   path_provider: ^2.0.8
   screenshot: ^2.5.0
@@ -53,7 +61,11 @@ dependencies:
   zefyrka: ^1.1.1
 
 dev_dependencies:
+<<<<<<< HEAD
   change_app_package_name: ^1.0.0
+=======
+  change_app_package_name: ^1.2.0
+>>>>>>> e9b4dad (updated)
   flutter_lints: ^4.0.0
   flutter_native_splash: ^2.4.0
   flutter_test:

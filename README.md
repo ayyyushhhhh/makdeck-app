@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Makdeck
 
 Makdeck is an exclusive online beauty app that allows you to choose from a variety of beauty products from Korean and other imported brands. 
@@ -34,3 +35,22 @@ Copyright 2021 Track and Grow
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 
 Google Play and the Google Play logo are trademarks of Google LLC.
+=======
+# makdeck
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+# MESSAGE
+>>>>>>> e9b4dad (updated)

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
-import 'package:makdeck/models/Products/product_model.dart';
 import 'package:makdeck/models/Review/review_model.dart';
 
 class CloudDatabase {
@@ -22,36 +21,58 @@ class CloudDatabase {
     }
   }
 
-  CollectionReference<ProductModel> getProductsData() {
+  Query getProductsData() {
     const String productpath = "Products/";
 
     try {
       final CollectionReference refrence = _firestore.collection(productpath);
 
-      final querypost = refrence.withConverter<ProductModel>(
-          fromFirestore: (snapshot, _) =>
-              ProductModel.fromMap(snapshot.data()!),
-          toFirestore: (product, _) => product.toMap());
+      // final querypost = refrence.withConverter<ProductModel>(
+      //     fromFirestore: (snapshot, _) =>
+      //         ProductModel.fromMap(snapshot.data()!),
+      //     toFirestore: (product, _) => product.toMap());
 
-      return querypost;
+      return refrence;
     } on Exception {
       rethrow;
     }
   }
 
-  CollectionReference<ProductModel> getProductsbyCategory(
-      {required String category}) {
-    final String productpath = "Category/Products/$category/";
+  Stream<QuerySnapshot> getProductsbyCategory({required String category}) {
+    const String productpath = "Products/";
 
     try {
       final CollectionReference refrence = _firestore.collection(productpath);
 
-      final querypost = refrence.withConverter<ProductModel>(
-          fromFirestore: (snapshot, _) =>
-              ProductModel.fromMap(snapshot.data()!),
-          toFirestore: (product, _) => product.toMap());
+      Stream<QuerySnapshot> querySnapshot =
+          refrence.where("category", isEqualTo: category).snapshots();
+      return querySnapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-      return querypost;
+  Stream<QuerySnapshot> getWishlist() {
+    const String productpath = "Products/";
+
+    try {
+      final CollectionReference refrence = _firestore.collection(productpath);
+
+      Stream<QuerySnapshot> querySnapshot = refrence.snapshots();
+      return querySnapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Stream<QuerySnapshot> getProducts() {
+    const String productpath = "Products/";
+
+    try {
+      final CollectionReference refrence = _firestore.collection(productpath);
+
+      Stream<QuerySnapshot> querySnapshot = refrence.snapshots();
+      return querySnapshot;
     } catch (e) {
       rethrow;
     }

@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+plugins {
+    id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+>>>>>>> e9b4dad (updated)
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -6,11 +18,14 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+<<<<<<< HEAD
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
+=======
+>>>>>>> e9b4dad (updated)
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -21,6 +36,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+<<<<<<< HEAD
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
@@ -34,6 +50,12 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion flutter.compileSdkVersion
+=======
+android {
+    namespace "com.scarecrowhouse.makdeck"
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+>>>>>>> e9b4dad (updated)
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +71,7 @@ android {
     }
 
     defaultConfig {
+<<<<<<< HEAD
         applicationId "com.scarecrowhouse.makdeck"
         multiDexEnabled true
         minSdkVersion 19 
@@ -71,14 +94,38 @@ android {
        }
    }
 
+=======
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.scarecrowhouse.makdeck"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+>>>>>>> e9b4dad (updated)
 }
 
 flutter {
     source '../..'
 }
 
+<<<<<<< HEAD
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
 }
+=======
+dependencies {}
+>>>>>>> e9b4dad (updated)

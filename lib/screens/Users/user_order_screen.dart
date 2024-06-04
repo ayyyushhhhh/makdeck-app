@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterfire_ui/firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:makdeck/models/Cart/cart_product.dart';
 import 'package:makdeck/models/Cart/order_model.dart';
 import 'package:makdeck/services/authentication/user_authentication.dart';
 import 'package:makdeck/services/users/user_firebasedatabase.dart';
 import 'package:makdeck/utils/ui/colors.dart';
+import 'package:makdeck/widgets/Products/shimer_container.dart';
 
 class UserOrderScreen extends StatelessWidget {
   const UserOrderScreen({Key? key}) : super(key: key);
@@ -40,99 +40,239 @@ class UserOrderScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        height: double.infinity,
-        child: FirestoreListView<OrderModel>(
-          shrinkWrap: true,
-          query: UserDataBase()
-              .getUserOrders(uid: FirebaseAuthentication.getUserUid),
-          itemBuilder: (BuildContext context, snapshot) {
-            final OrderModel order = snapshot.data();
-            final List<CartProductModel> products = order.cartproducts;
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: products.length,
-              physics: const ClampingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    color: Colors.white,
-                    height: 170,
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: products[index].image),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                products[index].productName,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 12),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                "Order ID : ${order.orderid}",
-                                style: TextStyle(
-                                    fontSize: 12, color: kPrimaryColor),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                "Quantiy : ${products[index].numOfItems}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                "Total Amount : ₹ ${products[index].price}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                "Ordered on : ${DateFormat.yMMMMd('en_US').format(DateTime.parse(order.orderTime))}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ],
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          height: double.infinity,
+          child: FutureBuilder<List<OrderModel>>(
+            future: UserDataBase()
+                .getUserOrders(uid: FirebaseAuthentication.getUserUid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return GridView.builder(
+                  itemCount: 2,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.75,
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return const ShimmerLoader();
+                  },
+                );
+              } else if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "Empty Wishlist",
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
+                  );
+                }
+                List<OrderModel> orders = snapshot.data!;
+
+                return ListView.builder(
+                  itemCount: orders.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    OrderModel orderModel = orders[index];
+                    final List<CartProductModel> products =
+                        orderModel.cartproducts;
+                    return Card(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        color: Colors.white,
+                        height: 170,
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: products[index].image),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    products[index].productName,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    "Order ID : ${orderModel.orderid}",
+                                    style: TextStyle(
+                                        fontSize: 12, color: kPrimaryColor),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    "Quantiy : ${products[index].numOfItems}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    "Total Amount : ₹ ${products[index].price}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    "Ordered on : ${DateFormat.yMMMMd('en_US').format(DateTime.parse(orderModel.orderTime))}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+              if (snapshot.hasError) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height / 2.8,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Center(
+                        child: Text(
+                      "No Internet Connection",
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    )),
                   ),
                 );
-              },
-            );
-          },
-        ),
-      ),
+              }
+
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 2.8,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Center(
+                      child: Text(
+                    "No Internet Connection",
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )),
+                ),
+              );
+            },
+          )
+
+          // child: FirestoreListView<OrderModel>(
+          //   shrinkWrap: true,
+
+          //   itemBuilder: (BuildContext context, snapshot) {
+          //     final OrderModel order = snapshot.data();
+          //     final List<CartProductModel> products = order.cartproducts;
+          //     return ListView.builder(
+          //       shrinkWrap: true,
+          //       itemCount: products.length,
+          //       physics: const ClampingScrollPhysics(),
+          //       itemBuilder: (BuildContext context, int index) {
+          //         return Card(
+          //           child: Container(
+          //             padding: const EdgeInsets.all(20),
+          //             color: Colors.white,
+          //             height: 170,
+          //             child: Row(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(10),
+          //                   child: SizedBox(
+          //                     width: 100,
+          //                     height: 100,
+          //                     child: CachedNetworkImage(
+          //                         fit: BoxFit.cover,
+          //                         imageUrl: products[index].image),
+          //                   ),
+          //                 ),
+          //                 const SizedBox(
+          //                   width: 6,
+          //                 ),
+          //                 Expanded(
+          //                   child: Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Text(
+          //                         products[index].productName,
+          //                         style: const TextStyle(
+          //                             fontWeight: FontWeight.bold, fontSize: 12),
+          //                         overflow: TextOverflow.ellipsis,
+          //                         maxLines: 3,
+          //                       ),
+          //                       const SizedBox(
+          //                         height: 6,
+          //                       ),
+          //                       Text(
+          //                         "Order ID : ${order.orderid}",
+          //                         style: TextStyle(
+          //                             fontSize: 12, color: kPrimaryColor),
+          //                       ),
+          //                       const SizedBox(
+          //                         height: 6,
+          //                       ),
+          //                       Text(
+          //                         "Quantiy : ${products[index].numOfItems}",
+          //                         style: const TextStyle(
+          //                             fontSize: 12, color: Colors.black),
+          //                       ),
+          //                       const SizedBox(
+          //                         height: 6,
+          //                       ),
+          //                       Text(
+          //                         "Total Amount : ₹ ${products[index].price}",
+          //                         style: const TextStyle(
+          //                             fontSize: 12, color: Colors.black),
+          //                       ),
+          //                       const SizedBox(
+          //                         height: 6,
+          //                       ),
+          //                       Text(
+          //                         "Ordered on : ${DateFormat.yMMMMd('en_US').format(DateTime.parse(order.orderTime))}",
+          //                         style: const TextStyle(
+          //                             fontSize: 12, color: Colors.black),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ),
+          //                 const SizedBox(
+          //                   width: 10,
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     );
+          //   },
+          // ),
+
+          ),
     );
   }
 }

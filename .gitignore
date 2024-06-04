@@ -8,6 +8,10 @@
 .buildlog/
 .history
 .svn/
+<<<<<<< HEAD
+=======
+migrate_working_dir/
+>>>>>>> e9b4dad (updated)
 
 # IntelliJ related
 *.iml
@@ -26,14 +30,20 @@
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+<<<<<<< HEAD
 .packages
+=======
+>>>>>>> e9b4dad (updated)
 .pub-cache/
 .pub/
 /build/
 
+<<<<<<< HEAD
 # Web related
 lib/generated_plugin_registrant.dart
 
+=======
+>>>>>>> e9b4dad (updated)
 # Symbolication related
 app.*.symbols
 
