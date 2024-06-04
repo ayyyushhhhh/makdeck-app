@@ -89,21 +89,7 @@ class _ProductImagesCaurselState extends State<ProductImagesCaursel> {
           ),
         ),
         Positioned(
-          right: 20,
-          top: 10,
-          child: IconButton(
-            onPressed: () {
-              // _shareScreenshot(_screenshotController);
-            },
-            icon: Icon(
-              Icons.share_rounded,
-              color: kPrimaryColor,
-              size: 30,
-            ),
-          ),
-        ),
-        Positioned(
-            right: 60,
+            right: 20,
             top: 10,
             child: IconButton(
               onPressed: () {

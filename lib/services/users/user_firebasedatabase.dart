@@ -85,23 +85,6 @@ class UserDataBase {
     }
   }
 
-  Query<ProductModel> getWishlistProducts({required String uid}) {
-    final String productpath = "users/$uid/Wishlist/";
-
-    try {
-      final CollectionReference refrence = _firestore.collection(productpath);
-
-      final querypost = refrence.orderBy("name").withConverter<ProductModel>(
-          fromFirestore: (snapshot, _) =>
-              ProductModel.fromMap(snapshot.data()!),
-          toFirestore: (product, _) => product.toMap());
-
-      return querypost;
-    } on FirebaseException {
-      rethrow;
-    }
-  }
-
   Future<List<String>> getWishlistProductsid({required String uid}) async {
     final String productpath = "users/$uid/Wishlist/";
 

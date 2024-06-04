@@ -30,6 +30,7 @@ class _CartScreenState extends State<CartScreen> {
       color: Colors.white,
       height: 150,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
@@ -59,22 +60,18 @@ class _CartScreenState extends State<CartScreen> {
                   height: 6,
                 ),
                 Container(
-                  height: 22,
-                  width: 70,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(width: 1, color: Colors.black54)),
+                  padding: EdgeInsets.all(5),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         'Quantity : ',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: kPrimaryColor, fontSize: 10),
+                        style: TextStyle(color: kPrimaryColor, fontSize: 14),
                       ),
                       Text(
                         productModel.numOfItems.toString(),
-                        style: TextStyle(color: Colors.black, fontSize: 10),
+                        style: TextStyle(color: Colors.black, fontSize: 14),
                       ),
                     ],
                   ),
@@ -97,7 +94,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Text(
                       'Delete',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: kPrimaryColor, fontSize: 8),
+                      style: TextStyle(color: kPrimaryColor, fontSize: 12),
                     ),
                   ),
                 ),
